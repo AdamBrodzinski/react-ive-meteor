@@ -1,0 +1,46 @@
+.footer {
+  background: #2D2D2D;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+
+  a {
+    color: #767676;
+    &:hover { color: darken(white, 20%); }
+    &:active { color: darken(white, 30%); }
+  }
+
+  .nav {
+    margin-top: 5px;
+    a { margin-right: 15px; }
+  }
+}
+
+// XXX move to component
+.header {
+  background: $primary;
+  height: 50px;
+  color: white;
+  font-size: 14px;
+
+  .container { display: flex; }
+
+  .nav {
+    margin: 18px 0 0 40px;
+    a { margin-right: 15px; }
+  }
+
+  .logo {
+    padding-top: 14px;
+    font-size: 20px;
+  }
+
+
+  a {
+    color: white;
+    &:hover { color: darken(white, 20%); }
+    &:active { color: darken(white, 30%); }
+  }
+}

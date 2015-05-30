@@ -1,0 +1,34 @@
+<head>
+  <meta charset="utf-8">
+  <title>Hello Reactive Meteor</title>
+</head>
+
+<template name="mainLayout">
+  <div class="layout-container">
+    {{> Template.dynamic template=top}}
+
+    <div class="main-content">
+      {{> Template.dynamic template=main}}
+    </div>
+
+    {{> Template.dynamic template=bottom}}
+  </div>
+</template>
+
+<template name='Header'>
+  <div class="header">
+    <div class="container">
+      <div class="logo">
+        <a title="By Facebook [CC BY 3.0 (http://creativecommons.org/licenses/by/3.0)], via Wikimedia Commons" href="http://commons.wikimedia.org/wiki/File%3AReact.js_logo.svg"><img width="512" alt="React.js logo" src="//upload.wikimedia.org/wikipedia/commons/thumb/5/57/React.js_logo.svg/512px-React.js_logo.svg.png"/></a>
+        <a href="/">
+          React-ive Meteor
+        </a>
+      </div>
+      <div class="nav">
+        <a href="/feed-example">Feed Example</a>
+        <a href="/about">Static Page Example</a>
+      </div>
+    </div>
+  <br>
+  </div>
+</template>
