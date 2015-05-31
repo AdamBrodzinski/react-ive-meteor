@@ -67,9 +67,9 @@ this.FeedItemFooter = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
   fieldsNeeded: {
-    likeCount: 1,
-    commentCount: 1,
-    shareCount: 1
+    likeCount: true,
+    commentCount: true,
+    shareCount: true
   },
 
 
@@ -79,14 +79,19 @@ this.FeedItemFooter = React.createClass({
         <a href="#">Like</a>
         <a href="#">Comment</a>
         <a href="#">Share</a>
+        &nbsp;
+        <b>L:</b> {this.state.likeCount} &nbsp;
+        <b>C:</b> {this.state.commentCount} &nbsp;
+        <b>S:</b> {this.state.shareCount} &nbsp;
       </div>
     );
   },
 
   getInitialState: function() {
     return {
-      name: "Tiesto",
-      createdAt: "Tuesday 17th 2008"
+      likeCount: 14,
+      commentCount: 2,
+      shareCount: 3
     };
   }
 });
