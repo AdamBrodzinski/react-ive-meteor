@@ -27,10 +27,10 @@ this.FeedList = React.createClass({
   },
 
   renderPostItems() {
-    return [<FeedItem key={1} {...this.state} />,
+    return [<FeedItem key={0} {...this.state} />,
       <FeedItem key={1} {...this.state} />,
-      <FeedItem key={1} {...this.state} />,
-      <FeedItem key={1} {...this.state} />,
+      <FeedItem key={2} {...this.state} />,
+      <FeedItem key={3} {...this.state} />,
     ]
   },
 
