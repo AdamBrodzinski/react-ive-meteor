@@ -7,31 +7,33 @@ this.FeedList = React.createClass({
     this.startMeteorSubscriptions();
   },
 
+  // subscribe to a reactive stream of data from
+  // server/publications/posts.js  publish
+  // TODO implement a relay/graphql type of system
   startMeteorSubscriptions() {
-    console.log('sub')
-    return Meteor.subscribe("posts", {desc: 1});
+    console.log('[FeedList] subscribing to data');
+    return Meteor.subscribe("posts");
   },
 
+  // fetch and merge Meteor 'reactive' data with this.state
+  // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
     return db.posts.find().fetch() || [];
   },
 
   render() {
-    console.log('rendering list');
-
-    return (
-      <div>
-        {this.renderPostItems()}
-      </div>
-    );
+    console.log("[FeedList] Rendering");
+    return (<div>{this.getPostItems()}</div>);
   },
 
-  renderPostItems() {
-    return [<FeedItem key={0} {...this.state} />,
-      <FeedItem key={1} {...this.state} />,
+  getPostItems() {
+    console.log('state', this.state[0])
+    return [
+      <FeedItem key={0} {...this.state[0]} />,
+      <FeedItem key={1} {...this.state[0]} />,
       <FeedItem key={2} {...this.state} />,
       <FeedItem key={3} {...this.state} />,
-    ]
+    ];
   },
 
 });

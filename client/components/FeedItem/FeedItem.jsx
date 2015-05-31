@@ -1,19 +1,19 @@
-/*global React */
+/*global FeedItemHeader, FeedItemFooter */
 
 this.FeedItem = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
   render() {
-    console.log('[FeedItem] rendering');
+    console.log("[FeedItem] rendering");
     return (
       <div className='feed-item'>
-        <FeedItemHeader />
+        <FeedItemHeader {...this.props} />
 
         <div className='feed-item-desc'>
           {this.props.desc}
         </div>
 
-        <FeedItemFooter />
+        <FeedItemFooter {...this.props} />
       </div>
     );
   },

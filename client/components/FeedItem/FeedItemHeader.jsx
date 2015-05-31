@@ -10,18 +10,16 @@ this.FeedItemHeader = React.createClass({
         <div className="avatar" />
 
         <div className='foo'>
-          <div className="name">{this.state.name}</div>
-          <div className="date">{this.state.createdAt}</div>
+          <div className="name">{this.props.userName}</div>
+          <div className="date">{this.formattedDate()}</div>
         </div>
       </div>
     );
   },
 
-  getInitialState: function() {
-    return {
-      name: "Tiesto",
-      createdAt: "Tuesday 17th 2008"
-    };
+  formattedDate() {
+    var date = this.props.createdAt;
+    return date && this.props.createdAt.toDateString();
   }
 });
 
