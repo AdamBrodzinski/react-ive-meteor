@@ -1,0 +1,48 @@
+// scope css to component
+.feed-item {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  min-height: 100px;
+  padding: 15px 15px 0 15px;
+  background: white;
+  border: 1px solid #DDD;
+  font-size: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+
+  .avatar {
+    height: 40px;
+    width: 40px;
+    background: gray;
+  }
+
+
+  &__header {
+    display: flex;
+    margin-bottom: 14px;
+
+    .name {
+      margin: 0 0 3px 15px;
+      color: $primary;
+      font-weight: bold;
+    }
+
+    .date {
+      color: gray;
+      font-size: 13px;
+      margin-left: 15px;
+    }
+  }
+
+
+  &__footer {
+    font-size: 14px;
+    height: 30px;
+    margin-top: 10px;
+
+    a { margin-right: 10px; }
+  }
+
+}
+
