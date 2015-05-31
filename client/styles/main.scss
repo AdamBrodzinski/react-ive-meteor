@@ -41,13 +41,13 @@ html { box-sizing: border-box; }
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
 
   &--panel {
     padding: 20px 50px;
     background: white;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto 30px;
   }
 }

@@ -4,15 +4,17 @@
 // these views can then call the router API to get reactive updates on
 // state in the URL. This can then be passed down into children if needed
 
+FlowLayout.setRoot('body');
 
-FlowRouter.route('/', { name: 'Home', action: renderView });
+FlowRouter.route('/',      { name: 'Home',  action: renderView });
 FlowRouter.route('/about', { name: 'About', action: renderView });
+FlowRouter.route('/feed',  { name: 'Feed',  action: renderView });
 
 
 // helper to layout the parent page view and log debug data
 function renderView() {
   renderMainLayoutWith(this.name);
-  console.log("Running page:", this.name, this._params);
+  console.log("Running page:", this.name, FlowRouter._current.params);
 }
 
 function renderMainLayoutWith(view) {
