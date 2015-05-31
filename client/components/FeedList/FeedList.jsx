@@ -1,35 +1,38 @@
+/*global FeedItem */
+
 this.FeedList = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
+  componentWillMount() {
+    this.startMeteorSubscriptions();
+  },
+
+  startMeteorSubscriptions() {
+    console.log('sub')
+    return Meteor.subscribe("posts", {desc: 1});
+  },
+
+  getMeteorState: function() {
+    return db.posts.find().fetch() || [];
+  },
+
   render() {
+    console.log('rendering list');
+
     return (
       <div>
-        <FeedItem />
+        {this.renderPostItems()}
       </div>
     );
   },
 
   renderPostItems() {
-    this.getAllPosts().map(function(item) {
-      
-    })
+    return [<FeedItem key={1} {...this.state} />,
+      <FeedItem key={1} {...this.state} />,
+      <FeedItem key={1} {...this.state} />,
+      <FeedItem key={1} {...this.state} />,
+    ]
   },
 
-  getAllPosts() {
-    return [{
-      "_id" : "1",
-      "userName" : "John Smith",
-      "createdAt" : new Date(),
-      "desc" : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type",
-      "likeCount" : 2,
-      "commentCount" : 0,
-      "shareCount" : 1
-    }];
-  },
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});

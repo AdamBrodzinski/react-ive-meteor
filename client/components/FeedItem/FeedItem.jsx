@@ -3,18 +3,14 @@
 this.FeedItem = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
-  //startMeteorSubscriptions: function() {
-    //Meteor.subscribe("players");
+   //set inital state with a reactive data source like
+   //Session, Mini-Mongo, FlowRouter's API, etc...
+  //getMeteorState() {
+    //return {
+      //currentStep: FlowRouter.getQueryParam("step"),
+      //desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type"
+    //};
   //},
-
-  // set inital state with a reactive data source like
-  // Session, Mini-Mongo, FlowRouter's API, etc...
-  getMeteorState() {
-    return {
-      currentStep: FlowRouter.getQueryParam("step"),
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type"
-    };
-  },
 
   render() {
     console.log('[FeedItem] rendering');
@@ -23,7 +19,7 @@ this.FeedItem = React.createClass({
         <FeedItemHeader />
 
         <div className='feed-item-desc'>
-          {this.state.desc}
+          {this.props.desc}
         </div>
 
         <FeedItemFooter />
