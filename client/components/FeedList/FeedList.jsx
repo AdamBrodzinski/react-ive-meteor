@@ -30,13 +30,10 @@ this.FeedList = React.createClass({
 
   getPostItems() {
     var docs = this.state.postItems;
-    var nodeList = [];
     if (!docs) return;
 
-    _.map(docs, function(doc) {
-      nodeList.push(
-        <FeedItem key={doc._id} {...doc} />
-      );
+    var nodeList = _.map(docs, function(doc) {
+      return <FeedItem key={doc._id} {...doc} />
     });
 
     return nodeList;
