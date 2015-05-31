@@ -18,7 +18,9 @@ this.FeedList = React.createClass({
   // fetch and merge Meteor 'reactive' data with this.state
   // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
-    return db.posts.find().fetch() || [];
+    return {
+      postItems: db.posts.find().fetch() || []
+    };
   },
 
   render() {
@@ -27,13 +29,17 @@ this.FeedList = React.createClass({
   },
 
   getPostItems() {
-    console.log('state', this.state[0])
-    return [
-      <FeedItem key={0} {...this.state[0]} />,
-      <FeedItem key={1} {...this.state[0]} />,
-      <FeedItem key={2} {...this.state} />,
-      <FeedItem key={3} {...this.state} />,
-    ];
+    var docs = this.state.postItems;
+    var nodeList = [];
+    if (!docs) return;
+
+    _.map(docs, function(doc) {
+      nodeList.push(
+        <FeedItem key={doc._id} {...doc} />
+      );
+    });
+
+    return nodeList;
   },
 
 });
