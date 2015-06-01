@@ -1,6 +1,6 @@
 this.FeedItemHeader = React.createClass({
   fieldsNeeded: {
-    name: 1,
+    userName: 1,
     createdAt: 1
   },
 

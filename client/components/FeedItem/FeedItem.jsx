@@ -3,6 +3,10 @@
 this.FeedItem = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
+  propTypes: {
+    desc: React.PropTypes.string.isRequired,
+  },
+
   render() {
     console.log("[FeedItem] rendering");
     return (

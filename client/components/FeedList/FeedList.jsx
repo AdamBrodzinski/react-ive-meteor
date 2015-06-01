@@ -12,7 +12,14 @@ this.FeedList = React.createClass({
   // TODO implement a relay/graphql type of system
   startMeteorSubscriptions() {
     console.log('[FeedList] subscribing to data');
-    return Meteor.subscribe("posts");
+    var fieldsNeeded = {
+      desc: 1,
+      likeCount: 1,
+      commentCount: 1,
+      userName: 1,
+      createdAt: 1,
+    };
+    return Meteor.subscribe("posts", fieldsNeeded);
   },
 
   // fetch and merge Meteor 'reactive' data with this.state
@@ -25,19 +32,15 @@ this.FeedList = React.createClass({
 
   render() {
     console.log("[FeedList] Rendering");
-    return (<div>{this.getPostItems()}</div>);
-  },
-
-  getPostItems() {
-    var docs = this.state.postItems;
-    if (!docs) return;
-
-    var nodeList = _.map(docs, function(doc) {
-      return <FeedItem key={doc._id} {...doc} />
-    });
-
-    return nodeList;
-  },
-
+    return (
+      <div>
+        {
+          _.map(this.state.postItems, function(doc) {
+            return <FeedItem key={doc._id} {...doc} />
+          })
+        }
+      </div>
+    );
+  }
 });
 
