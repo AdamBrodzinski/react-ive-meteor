@@ -1,7 +1,8 @@
 /*global FeedItem */
+var PureRender = React.addons.PureRenderMixin;
 
 this.FeedList = React.createClass({
-  mixins: [ReactMeteor.Mixin],
+  mixins: [ReactMeteor.Mixin, PureRender],
 
   componentWillMount() {
     this.startMeteorSubscriptions();
