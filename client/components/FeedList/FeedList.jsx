@@ -19,6 +19,7 @@ this.FeedList = React.createClass({
       commentCount: 1,
       userName: 1,
       createdAt: 1,
+      ownerId: 1,
     };
     return Meteor.subscribe("posts", fieldsNeeded);
   },
@@ -37,7 +38,7 @@ this.FeedList = React.createClass({
       <div>
         {
           this.state.postItems.map(doc => {
-            return <FeedItem key={doc._id} {...doc} />;
+            return <FeedItem key={doc._id} {...doc} destroyPost={doc.destroy} />;
           })
         }
       </div>

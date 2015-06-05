@@ -33,6 +33,13 @@
       font-size: 13px;
       margin-left: 15px;
     }
+
+    .name-date { flex: 1; }
+    .destroy {
+      font-size: 13px;
+      color: gray;
+      cursor: pointer;
+    }
   }
 
 
