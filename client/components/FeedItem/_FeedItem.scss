@@ -4,10 +4,10 @@
   flex-direction: column;
   width: 500px;
   min-height: 100px;
-  padding: 15px 15px 0 15px;
+  padding: 10px 10px 0 10px;
   background: white;
-  border: 1px solid #DDD;
-  font-size: 15px;
+  border: 1px solid #D2D2D2;
+  font-size: 14px;
   margin-bottom: 12px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
 
@@ -44,13 +44,36 @@
 
 
   &__footer {
-    font-size: 14px;
-    height: 30px;
+    font-size: 13px;
+    height: 23px;
     margin-top: 10px;
 
     a { margin-right: 10px; }
     .by-people { margin-left: 20px; }
   }
 
+  &__comments {
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 7px 10px;
+    background-color: #F7F8FA;
+    border-top: 1px solid #E5E5E5;
+
+    input {
+      border: 1px solid #CFCFCF;
+      padding: 6px;
+      font-size: 12px;
+      width: 100%;
+
+      &:placeholder {
+        font-size: 10px;
+      }
+    }
+
+    .comment-form {
+    }
+  }
+
 }
+
 

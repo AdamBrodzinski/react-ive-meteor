@@ -9,7 +9,7 @@
 // also, becauses i'm lazy, I made a file generator to create the below for you!
 
 Posts = new Mongo.Collection('posts', {transform: function(doc) {
-  // make documents inherit our model
+  // make documents inherit our model, no IE8 support with __proto__
   doc.__proto__ = Post;
   return doc;
 }});

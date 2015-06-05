@@ -1,4 +1,9 @@
-/*global FeedItemHeader, FeedItemFooter */
+/*global
+  FeedItemHeader,
+  FeedItemFooter,
+  FeedComments
+*/
+
 var PureRender = React.addons.PureRenderMixin;
 
 this.FeedItem = React.createClass({
@@ -19,6 +24,8 @@ this.FeedItem = React.createClass({
         </div>
 
         <FeedItemFooter {...this.props} />
+
+        <FeedComments {...this.props} />
       </div>
     );
   },
