@@ -1,4 +1,4 @@
-/*global FeedItem */
+/*global Posts, FeedItem */
 var PureRender = React.addons.PureRenderMixin;
 
 this.FeedList = React.createClass({
@@ -9,10 +9,10 @@ this.FeedList = React.createClass({
   },
 
   // subscribe to a reactive stream of data from
-  // server/publications/posts.js  publish
-  // TODO implement a relay/graphql type of system
+  // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
     console.log('[FeedList] subscribing to data');
+    // TODO implement a relay/graphql type of system
     var fieldsNeeded = {
       desc: 1,
       likeCount: 1,
@@ -27,7 +27,7 @@ this.FeedList = React.createClass({
   // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
     return {
-      postItems: Posts.find().fetch() || []
+      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || []
     };
   },
 
@@ -36,8 +36,8 @@ this.FeedList = React.createClass({
     return (
       <div>
         {
-          _.map(this.state.postItems, function(doc) {
-            return <FeedItem key={doc._id} {...doc} />
+          this.state.postItems.map(doc => {
+            return <FeedItem key={doc._id} {...doc} />;
           })
         }
       </div>

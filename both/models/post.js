@@ -14,7 +14,7 @@ Posts.after.insert(function (userId, doc) {
 
 // Post model
 //
-// CRUD facade to call Meteor methods more elegantly
+// CRUD facade to call Meteor DDP methods more elegantly
 Post = {
   create: function(data, callback) {
     return Meteor.call('Post.create', data, callback);
@@ -24,9 +24,13 @@ Post = {
     return Meteor.call('Post.update', this._id, data, callback);
   },
 
-  destroy: function(docId, callback) {
-    return Meteor.call('Post.destroy', docId, callback);
-  }
+  destroy: function(callback) {
+    return Meteor.call('Post.destroy', this._id, callback);
+  },
+
+  like: function(docId, callback) {
+    return Meteor.call('Post.like', docId, callback);
+  },
 };
 
 
@@ -55,19 +59,22 @@ Meteor.methods({
    */
   "Post.create": function(data) {
     var docId;
-    if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+    //if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     data.ownerId = User.id();
     data.createdAt = new Date();
+    data.likeCount = 0;
+    data.commentCount = 0;
 
+    data.userName = "Adam Brodzinski";
     // TODO plug in your own schema
-    check(data, {
-      createdAt: Date,
-      ownerId: String,
-      // XXX temp fields
-      foo: String,
-      bar: String
-    });
+    //check(data, {
+      //createdAt: Date,
+      //ownerId: String,
+      //// XXX temp fields
+      //foo: String,
+      //bar: String
+    //});
 
     docId = Posts.insert(data);
 
@@ -118,16 +125,33 @@ Meteor.methods({
    * @returns {number} of documents destroyed (0|1)
    */
   "Post.destroy": function(docId) {
-    var count;
     check(docId, String);
 
     if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     // if caller doesn't own doc, destroy will fail because fields won't match
-    count = Posts.remove({_id: docId, ownerId: User.id()});
+    var count = Posts.remove({_id: docId, ownerId: User.id()});
 
     console.log("  [Post.destroy]", count);
     return count;
-  }
+  },
+
+
+  /**
+   * Increments a Post like by 1
+   * XXX this will not check for multiple like by the same person!!
+   * @method
+   * @param {string} docId - The doc id to like
+   * @returns {number} of documents updated (0|1)
+   */
+  "Post.like": function(docId) {
+    check(docId, String);
+    //if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+
+    var count = Posts.update({_id: docId}, {$inc: {likeCount: 1} });
+
+    console.log("  [Post.like]", count);
+    return count;
+  },
 });
 

@@ -1,0 +1,35 @@
+.create-post {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+  border: 1px solid #DDD;
+  background: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+  margin: 0 10px 10px 0;
+
+  textarea {
+    width: 492px;
+    height: 68px;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 14px;
+    border: none;
+    border-bottom: 1px solid #EAEAEA;
+
+    &:placeholder {
+      color: gray;
+    }
+
+  }
+
+  button {
+    align-self: flex-end;
+    padding: 7px 15px;
+    margin: 0 10px 10px 0;
+    background-color: $primary;
+    color: #FFF;
+    border: none;
+  }
+}
+

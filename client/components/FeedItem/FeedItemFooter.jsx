@@ -1,3 +1,4 @@
+/*global Post */
 
 this.FeedItemFooter = React.createClass({
   mixins: [ReactMeteor.Mixin],
@@ -7,10 +8,15 @@ this.FeedItemFooter = React.createClass({
     commentCount: 1
   },
 
+  // *note* doesn't check for mult. like by same person on the backend
+  likePost() {
+    Post.like(this.props._id);
+  },
+
   render() {
     return (
       <div className="feed-item__footer">
-        <a href="#">Like</a>
+        <a href="#" onClick={ this.likePost }>Like</a>
         <a href="#">Comment</a>
 
         <span className='by-people'>
