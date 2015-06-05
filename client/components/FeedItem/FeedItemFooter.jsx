@@ -9,7 +9,8 @@ this.FeedItemFooter = React.createClass({
   },
 
   // *note* doesn't check for mult. like by same person on the backend
-  likePost() {
+  likePost(e) {
+    e.preventDefault();
     Post.like(this.props._id);
   },
 
