@@ -8,10 +8,7 @@ FeedComments = React.createClass({
     return (
       <div className='feed-item__comments'>
 
-        <div className="comments-list">
-          <div className="comment-item">
-          </div>
-        </div>
+        <CommentItem {...this.props} />
 
         <form className='comment-form'
           onSubmit={ this.createComment }>
