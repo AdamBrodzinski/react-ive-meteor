@@ -1,21 +1,27 @@
-/*global Post:true, User */
+/*global Post:true, Posts:true, User */
 
-db.posts = new Mongo.Collection('posts');
+Posts = new Mongo.Collection('posts', {transform: function(doc) {
+  // make documents inherit our model
+  doc.__proto__ = Post;
+  return doc;
+}});
 
 // run hook to log or denormalize mongo data
-db.posts.after.insert(function (userId, doc) {
+Posts.after.insert(function (userId, doc) {
   console.log("Inserted Doc", userId, doc);
 });
 
 
+// Post model
+//
 // CRUD facade to call Meteor methods more elegantly
 Post = {
   create: function(data, callback) {
     return Meteor.call('Post.create', data, callback);
   },
 
-  update: function(docId, data, callback) {
-    return Meteor.call('Post.update', docId, data, callback);
+  update: function(data, callback) {
+    return Meteor.call('Post.update', this._id, data, callback);
   },
 
   destroy: function(docId, callback) {
@@ -63,7 +69,7 @@ Meteor.methods({
       bar: String
     });
 
-    docId = db.posts.insert(data);
+    docId = Posts.insert(data);
 
     console.log("  [Post.create]", docId);
     return docId;
@@ -98,7 +104,7 @@ Meteor.methods({
     // if caller doesn't own doc, update will fail because fields won't match
     selector = {_id: docId, ownerId: User.id()};
 
-    count = db.posts.update(selector, {$set: data});
+    count = Posts.update(selector, {$set: data});
 
     console.log("  [Post.update]", count, docId);
     return count;
@@ -118,7 +124,7 @@ Meteor.methods({
     if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     // if caller doesn't own doc, destroy will fail because fields won't match
-    count = db.posts.remove({_id: docId, ownerId: User.id()});
+    count = Posts.remove({_id: docId, ownerId: User.id()});
 
     console.log("  [Post.destroy]", count);
     return count;

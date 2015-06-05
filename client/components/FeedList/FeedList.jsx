@@ -27,7 +27,7 @@ this.FeedList = React.createClass({
   // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
     return {
-      postItems: db.posts.find().fetch() || []
+      postItems: Posts.find().fetch() || []
     };
   },
 
