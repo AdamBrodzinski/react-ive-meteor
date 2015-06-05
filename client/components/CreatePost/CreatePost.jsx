@@ -1,4 +1,4 @@
-/*global Post */
+/*global Post, User */
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -31,9 +31,18 @@ class CreatePost extends React.Component {
     if (!this.state.desc) return;
 
     Post.create({
-      desc: this.state.desc
-    });
+      desc: this.state.desc,
+      userName: User.username()
+    }, this.onError);
     this.resetForm();
+  }
+
+  onError(err, res) {
+    if (err && err.error === 401) {
+      alert("You need to login before creating a post");
+    } else if (err) {
+      alert("Server error");
+    }
   }
 
   resetForm() {

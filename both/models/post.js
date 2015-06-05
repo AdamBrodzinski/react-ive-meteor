@@ -1,20 +1,45 @@
 /*global Post:true, Posts:true, User */
 
+// NOTE, doing meteor data/collections this way loses much of Meteor's
+// 'magic' and makes more work for us but i'm totally ok trading convenience
+// for flexibility and easier to reason with security rules. You can still
+// use one liner insert/update methods if you opt into using allow/deny based
+// security. Perhaps someone can submit a branch using this methodology too!
+//
+// also, becauses i'm lazy, I made a file generator to create the below for you!
+
 Posts = new Mongo.Collection('posts', {transform: function(doc) {
   // make documents inherit our model
   doc.__proto__ = Post;
   return doc;
 }});
 
-// run hook to log or denormalize mongo data
+// optionally run hook to log, audit, or denormalize mongo data
 Posts.after.insert(function (userId, doc) {
   console.log("Inserted Doc", userId, doc);
 });
 
 
-// Post model
+// Post Model: add methods to here and your fetched data will have them for use
 //
-// CRUD facade to call Meteor DDP methods more elegantly
+// CRUD facade allows you to call Meteor DDP methods more elegantly.
+//
+// If you don't have the model instance on the client, you can pass in the
+// id as the first param and it will use that instead, security checks
+// will ensure that user is allowed to mutate document.
+//
+// Running these Meteor.call's on the client will *only* run a simulation
+// and the server copy does the realy data mutating. This prevents users
+// from tampering data. Trust *nothing* on the client!
+//
+// Ex:
+//    var post = Posts.findOne({_id: '123'});
+//    post.fullName();
+//    post.like();
+//    post.update({desc: 'Hello'});
+//
+//    Post.update('123', {desc: 'Goodbye'});
+//
 Post = {
   create: function(data, callback) {
     return Meteor.call('Post.create', data, callback);
@@ -31,25 +56,25 @@ Post = {
   like: function(docId, callback) {
     return Meteor.call('Post.like', docId, callback);
   },
+
+  // example method (not used in app)
+  fullName: function() {
+    return this.firstName + this.lastName;
+  }
 };
 
 
 // ** Security README **
 //
-// all insert, update, and delete MiniMongo methods are disabled on the client
+// all Post insert, update & delete MiniMongo methods are disabled on the client
 // by not having allow/deny rules. This ensures more granular security & moves
 // the security logic into the meteor method. all mutation has to happen with
 // the Meteor methods. These methods are placed into the 'both' folder so that
 // Meteor uses the methods as stubs on the client, retaining the latency
-// compensation. if you need to hide the model, move the method into the
+// compensation. if you need to hide the model logic, move the methods into the
 // server directory. doing so will lose latency compensation, however a stub
 // can be created on the client folder to re-enable latency compensation.
 //
-// Methods assume you have accounts and require the caller to be logged in for
-// security. If this is not needed, remove the loggedIn check AND the ownerId
-// assignment so the ownerId is not null on create.
-
-
 Meteor.methods({
   /**
    * Creates a Post document
@@ -59,14 +84,13 @@ Meteor.methods({
    */
   "Post.create": function(data) {
     var docId;
-    //if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+    if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     data.ownerId = User.id();
     data.createdAt = new Date();
     data.likeCount = 0;
     data.commentCount = 0;
 
-    data.userName = "Adam Brodzinski";
     // TODO plug in your own schema
     //check(data, {
       //createdAt: Date,
@@ -138,15 +162,17 @@ Meteor.methods({
 
 
   /**
-   * Increments a Post like by 1
-   * XXX this will not check for multiple like by the same person!!
+   * Naive implementation of increment like count by 1
+   * this will not check for multiple like by the same person or
+   * even track who liked it. Perhaps after releasing we can fix this
+   *
    * @method
    * @param {string} docId - The doc id to like
    * @returns {number} of documents updated (0|1)
    */
   "Post.like": function(docId) {
     check(docId, String);
-    //if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+    if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     var count = Posts.update({_id: docId}, {$inc: {likeCount: 1} });
 

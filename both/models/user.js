@@ -19,12 +19,8 @@ User = {
   },
 
   // returns user profile {Object}
-  profile: function() {
-    if (Meteor.user() && Meteor.user().profile) {
-      return Meteor.user().profile;
-    } else {
-      return {};
-    }
+  username: function() {
+    return Meteor.user() && Meteor.user().username;
   },
 
   // returns first role {String} in user's role array if found
