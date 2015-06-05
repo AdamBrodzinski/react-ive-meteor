@@ -4,7 +4,19 @@ this.CommentItem = React.createClass({
   render() {
     return (
       <div className="comment-item">
-        Comment
+        <div className="comment-item__row">
+          <div className="comment-item__name">
+            {this.props.username}
+          </div>
+
+          <div className="comment-item__desc">
+            {this.props.desc}
+          </div>
+        </div>
+
+        <div className="comment-item__date">
+          {this.props.createdAt}
+        </div>
       </div>
     );
   },

@@ -14,17 +14,26 @@ this.FeedList = React.createClass({
     console.log('[FeedList] subscribing to data');
     // TODO implement a relay/graphql type of system
     var fieldsNeeded = {
-      desc: 1,
-      likeCount: 1,
-      commentCount: 1,
-      userName: 1,
-      createdAt: 1,
-      ownerId: 1,
+      posts: {
+        _id: 1,
+        desc: 1,
+        likeCount: 1,
+        commentCount: 1,
+        userName: 1,
+        createdAt: 1,
+        ownerId: 1,
+      },
+      postComments: {
+        _id: 1,
+        createdAt: 1,
+        username: 1,
+        desc: 1,
+      }
     };
-    return Meteor.subscribe("posts", fieldsNeeded);
+    return Meteor.subscribe("feed", fieldsNeeded);
   },
 
-  // fetch and merge Meteor 'reactive' data with this.state
+  // fetch from MiniMongo data store and merge with this.state
   // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
     return {
