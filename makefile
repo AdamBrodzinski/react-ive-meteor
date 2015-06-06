@@ -4,6 +4,6 @@ dev:
 	  --settings '.config/devel/settings.json'
 deploy:
 	meteor deploy \
-	yourproject.meteor.com \
+	react-ive.meteor.com\
 	--settings '.config/devel/settings.json'
 
