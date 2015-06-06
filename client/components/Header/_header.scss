@@ -1,0 +1,37 @@
+.header {
+  background: $primary;
+  height: 50px;
+  font-size: 14px;
+
+  .container { display: flex; }
+
+  .nav {
+    width: 100%;
+    margin: 18px 0 0 40px;
+
+    > a {
+      color: white;
+      margin-right: 15px;
+
+      &:hover { color: darken(white, 20%); }
+      &:active { color: darken(white, 30%); }
+    }
+  }
+
+  .logo {
+    width: 200px;
+    a { color: white; }
+    padding-top: 14px;
+    font-size: 20px;
+  }
+
+
+  .login-link-text {
+    color: white;
+  }
+  #loginContainer, {
+    float: right;
+  }
+}
+
+
