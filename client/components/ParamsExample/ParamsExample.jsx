@@ -15,12 +15,13 @@ this.ParamsExample = React.createClass({
           data changes
         </p>
 
+        {/*  https://github.com/meteorhacks/flow-router#api  */}
         <b>Step:</b> { FlowRouter.getQueryParam('step') }
 
         <br /><br />
 
         <button onClick={ this.incStep }>
-          Inc. Step
+          Press to Increment Step Query Params
         </button>
       </div>
     );
@@ -29,7 +30,7 @@ this.ParamsExample = React.createClass({
   incStep() {
     var currentStep = FlowRouter.getQueryParam('step') || 0;
     var nextStep = parseInt(currentStep) + 1;
-    FlowRouter.go('/feed?step=' + nextStep);
+    FlowRouter.setQueryParams({ step: nextStep });
   }
 
 });
