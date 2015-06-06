@@ -34,8 +34,9 @@ this.FeedList = React.createClass({
     return Meteor.subscribe("feed", fieldsNeeded);
   },
 
-  // fetch from MiniMongo data store and merge with this.state
-  // if new data is sent down this will update to keep in sync
+  // track changes in MiniMongo data store and merge with this.state
+  // when they change. If new data is sent down from the publication
+  // this will still update to keep in sync with this.state
   getMeteorState: function() {
     return {
       postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || [],
