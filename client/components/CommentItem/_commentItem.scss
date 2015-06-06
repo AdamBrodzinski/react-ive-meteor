@@ -1,4 +1,24 @@
 .comment-item {
+  font-size: 12px;
+  line-height: 1.5em;
+  display: flex;
 
+  &__photo {
+    height: 25px;
+    width: 25px;
+    background: #808080;
+    margin: 5px 7px 0 0;
+  }
+
+  &__name {
+    margin: 0 7px 7px 0;
+    color: $primary;
+    font-weight: bold;
+  }
+
+  &__date {
+    margin-bottom: 7px;
+    color: gray;
+  }
 }
 

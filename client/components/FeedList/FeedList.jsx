@@ -2,7 +2,7 @@
 var PureRender = React.addons.PureRenderMixin;
 
 this.FeedList = React.createClass({
-  mixins: [ReactMeteor.Mixin, PureRender],
+  mixins: [ReactMeteor.Mixin],
 
   componentWillMount() {
     this.startMeteorSubscriptions();
@@ -28,6 +28,7 @@ this.FeedList = React.createClass({
         createdAt: 1,
         username: 1,
         desc: 1,
+        postId: 1,
       }
     };
     return Meteor.subscribe("feed", fieldsNeeded);
@@ -37,7 +38,9 @@ this.FeedList = React.createClass({
   // if new data is sent down this will update to keep in sync
   getMeteorState: function() {
     return {
-      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || []
+      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || [],
+      // watch comments store for changes TODO find a better way?
+      allComments: PostComments.find().fetch()
     };
   },
 
@@ -47,7 +50,13 @@ this.FeedList = React.createClass({
       <div>
         {
           this.state.postItems.map(doc => {
-            return <FeedItem key={doc._id} {...doc} destroyPost={doc.destroy} />;
+            // pull comments from MiniMongo client store
+            var comments = PostComments.find({postId: doc._id}).fetch();
+
+            return <FeedItem key={doc._id}
+              { ...doc }
+              comments={ comments }
+              destroyPost={ doc.destroy } />;
           })
         }
       </div>

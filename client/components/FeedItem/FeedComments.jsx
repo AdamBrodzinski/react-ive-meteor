@@ -4,19 +4,13 @@
 FeedComments = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
-  getMeteorState() {
-    return {
-      comments: PostComments.find()
-    };
-  },
-
   render() {
     return (
       <div className='feed-item__comments'>
 
         {
-          this.state.comments.map(com => {
-            return <CommentItem key={com._id} desc={com.desc} />;
+          this.props.comments.map(comment => {
+            return <CommentItem key={comment._id} {...comment} />;
           })
         }
 
