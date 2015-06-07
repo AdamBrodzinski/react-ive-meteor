@@ -199,7 +199,7 @@ Meteor.methods({
    * @returns {number} of documents updated (0|1)
    */
   "Post.increment": function(docId, fieldName) {
-    check(fieldName, "commentName");
+    check(fieldName, "commentCount");
     if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
 
     var incField = {};
