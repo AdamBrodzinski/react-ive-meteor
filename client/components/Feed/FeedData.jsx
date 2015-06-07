@@ -1,17 +1,16 @@
-// Perhaps this component should be called FeedData instead and
-// then it only handles data and passes it down to FeedList which
-// then handles itterating over the FeedItems ? TODO
+// FeedData handles all data subscriptions and pushes data down to
+// children via props. Ideally all child state should be here too
 
-/*global Posts, FeedItem */
+/*global Posts, FeedList */
 
-this.FeedList = React.createClass({
+this.FeedData = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
   getInitialState() {
     return {
       limits: {
         posts: 2
-      //postComments: 5 TODO
+        //postComments: 5 TODO
       },
 
       fieldsNeeded: {
@@ -66,34 +65,15 @@ this.FeedList = React.createClass({
   },
 
   incrementLimit() {
-    var currLimit = this.state.postLimit;
-    this.setState({postLimit: currLimit + 3});
+    var limits = _.extend({}, this.state.limits);
+    limits.posts = limits.posts + 2;
+
+    this.setState({limits: limits });
     return this.state;
   },
 
   render() {
-    console.log("[FeedList] Rendering");
-    return (
-      <div>
-        {
-          this.state.postItems.map(doc => {
-            // pull comments from MiniMongo client store
-            var comments = PostComments.find({postId: doc._id}, {sort: {createdAt: -1}}).fetch();
-
-            return <FeedItem key={doc._id}
-              { ...doc }
-              comments={ comments }
-              destroyPost={ doc.destroy }
-              createComment={ PostComment.create }
-            />;
-          })
-        }
-        <button className='more-btn'
-            onClick={this.incrementLimit}>
-          Load More
-        </button>
-      </div>
-    );
+    return <FeedList postItems={this.state.postItems} {...this.props} />;
   }
 });
 
