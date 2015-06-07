@@ -4,12 +4,16 @@
   flex-direction: column;
   width: 500px;
   min-height: 100px;
+  margin-bottom: 12px;
   padding: 10px 10px 0 10px;
   background: white;
-  border: 1px solid #D2D2D2;
+  border: 1px solid #D3D3D3;
   font-size: 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+  line-height: 1.4em;
+  color: #242424;
+  box-shadow: 0 0px 3px rgba(0, 0, 0, 0.07);
+  border-radius: 3px;
+  border-bottom-color: #BEBEBE;
 
   .avatar {
     height: 40px;
