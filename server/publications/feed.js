@@ -1,5 +1,7 @@
 /*global Posts, PostComments */
 
+var optional = Match.Optional;
+
 Meteor.publish('feed', function(fields, limits) {
   console.log('Publishing Posts', fields);
   console.log("LImit:", limits);
@@ -26,21 +28,21 @@ Meteor.publish('feed', function(fields, limits) {
   // publication will fail and throw an error
   check(fields, {
     posts: {
-      _id: Boolean,
-      desc: Boolean,
-      likeCount: Boolean,
-      commentCount: Boolean,
-      userName: Boolean,
-      createdAt: Boolean,
-      ownerId: Match.Optional(Boolean),
+      _id: Boolean,  // id required for security
+      desc: optional(Boolean),
+      likeCount: optional(Boolean),
+      commentCount: optional(Boolean),
+      userName: optional(Boolean),
+      createdAt: optional(Boolean),
+      ownerId: optional(Boolean),
     },
 
     postComments: {
-      _id: Boolean,
-      createdAt: Boolean,
-      username: Boolean,
-      desc: Boolean,
-      postId: Boolean,
+      _id: Boolean,  // id required for security
+      createdAt: optional(Boolean),
+      username: optional(Boolean),
+      desc: optional(Boolean),
+      postId: optional(Boolean),
     }
   });
 
