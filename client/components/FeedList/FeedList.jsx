@@ -71,7 +71,9 @@ this.FeedList = React.createClass({
             return <FeedItem key={doc._id}
               { ...doc }
               comments={ comments }
-              destroyPost={ doc.destroy } />;
+              destroyPost={ doc.destroy }
+              createComment={ PostComment.create }
+            />;
           })
         }
         <button className='more-btn'

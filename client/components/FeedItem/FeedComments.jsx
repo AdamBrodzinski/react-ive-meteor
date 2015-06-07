@@ -1,10 +1,9 @@
-/*global FeedComments:true */
+/*global FeedComments:true, CommentItem, User */
 /* jshint maxlen: false */
 
 FeedComments = React.createClass({
-  mixins: [ReactMeteor.Mixin],
-
   render() {
+    // TODO breakout form into sep. component
     return (
       <div className='feed-item__comments'>
 
@@ -28,8 +27,16 @@ FeedComments = React.createClass({
 
   createComment(e) {
     e.preventDefault();
+
+    this.props.createComment({
+      username: User.username(),
+      desc: e.target.firstChild.value,
+      ownerId: User.id(),
+      postId: this.props._id,
+    });
+
     e.target.reset();
-    //this.props.createComment();
   }
+
 });
 
