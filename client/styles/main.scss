@@ -26,6 +26,15 @@ p {
   font-size: 15px;
 }
 
+code {
+  background-color: #EEE;
+  padding: 0 7px;
+}
+
+.article li {
+  margin-bottom: 4px;
+}
+
 html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
