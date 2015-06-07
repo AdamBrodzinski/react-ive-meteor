@@ -7,6 +7,20 @@
 // security. Perhaps someone can submit a branch using this methodology too!
 //
 // also, becauses i'm lazy, I made a file generator to create the below for you!
+// https://github.com/AdamBrodzinski/meteor-generate/tree/react
+
+
+var schema = {
+  _id: String,
+  createdAt: Date,
+  updatedAt: Date,
+  ownerId: String,
+  userName: String,
+  desc: String,
+  likeCount: Number,
+  commentCount: Number
+};
+
 
 Posts = new Mongo.Collection('posts', {transform: function(doc) {
   // make documents inherit our model, no IE8 support with __proto__
@@ -22,11 +36,9 @@ Posts.after.insert(function (userId, doc) {
 
 // Post Model: add methods to here and your fetched data will have them for use
 //
-// CRUD facade allows you to call Meteor DDP methods more elegantly.
-//
-// If you don't have the model instance on the client, you can pass in the
-// id as the first param and it will use that instead, security checks
-// will ensure that user is allowed to mutate document.
+// TODO If you don't have the model instance on the client, you can pass in the
+// id as the first param and it will use that instead. security checks
+// will ensure that a user is allowed to mutate their own document.
 //
 // Running these Meteor.call's on the client will *only* run a simulation
 // and the server copy does the realy data mutating. This prevents users
@@ -80,29 +92,27 @@ Meteor.methods({
    * Creates a Post document
    * @method
    * @param {object} data - data to insert
+   * @param {object} data.desc - post text content
+   * @param {object} data.userName - post owner username
    * @returns {string} of document id
    */
   "Post.create": function(data) {
     var docId;
-    if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+    if (!this.userId) throw new Meteor.Error(401, "Login required");
 
-    data.ownerId = User.id();
+    data.ownerId = this.userId; // XXX cleanup
     data.createdAt = new Date();
+    data.updatedAt = new Date();
     data.likeCount = 0;
     data.commentCount = 0;
 
-    // TODO plug in your own schema
-    //check(data, {
-      //createdAt: Date,
-      //ownerId: String,
-      //// XXX temp fields
-      //foo: String,
-      //bar: String
-    //});
+    // ensure user doesn't send extra/evil data
+    // ignore _id since it's not created yet
+    check(data, _.omit(schema, '_id'));
 
     docId = Posts.insert(data);
 
-    console.log("  [Post.create]", docId);
+    console.log("[Post.create]", docId);
     return docId;
   },
 
@@ -115,21 +125,19 @@ Meteor.methods({
    * @returns {number} of documents updated (0|1)
    */
   "Post.update": function(docId, data) {
-    var optional = Match.Optional;
     var count, selector;
+    var optional = Match.Optional;
 
     check(docId, String);
     if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
     data.updatedAt = new Date();
 
-    // TODO plug in your own schema
+    // whitelist what can be updated
     check(data, {
-      createdAt: Date,
-      updatedAt: Date,
-      ownerId: String,
-      // XXX temp fields
-      foo: optional(String),
-      bar: String
+      updatedAt: schema.updatedAt,
+      desc: optional(schema.desc),
+      commentCount: optional(schema.commentCount),
+      likeCount: optional(schema.likeCount)
     });
 
     // if caller doesn't own doc, update will fail because fields won't match
