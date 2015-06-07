@@ -1,45 +1,58 @@
+// Perhaps this component should be called FeedData instead and
+// then it only handles data and passes it down to FeedList which
+// then handles itterating over the FeedItems ? TODO
+
 /*global Posts, FeedItem */
 
 this.FeedList = React.createClass({
   mixins: [ReactMeteor.Mixin],
 
-  componentWillMount() {
-    this.startMeteorSubscriptions();
+  getInitialState() {
+    return {
+      limits: {
+        posts: 2
+      //postComments: 5 TODO
+      },
+
+      fieldsNeeded: {
+        posts: {
+          _id: true,
+          desc: true,
+          likeCount: true,
+          commentCount: true,
+          userName: true,
+          createdAt: true,
+          ownerId: true,
+        },
+        postComments: {
+          _id: true,
+          createdAt: true,
+          username: true,
+          desc: true,
+          postId: true,
+        }
+      }
+    };
   },
 
-  getInitialState() {
-    return { postLimit: 2 };
+  componentWillMount() {
+    this._hasStartedSubscription = false;
+    console.log("Waiting for children to subscribe to fields...", Date.now());
+
+    setTimeout(() => {
+      this._hasStartedSubscription = true;
+      this.startMeteorSubscriptions();
+    }, 1000);
   },
 
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
-    console.log('[FeedList] subscribing to data');
-    // TODO implement a relay/graphql type of system
-    var fieldsNeeded = {
-      posts: {
-        _id: true,
-        desc: true,
-        likeCount: true,
-        commentCount: true,
-        userName: true,
-        createdAt: true,
-        ownerId: true,
-      },
-      postComments: {
-        _id: true,
-        createdAt: true,
-        username: true,
-        desc: true,
-        postId: true,
-      }
-    };
-
-    var limits = {
-      posts: this.state.postLimit
-    };
-
-    return Meteor.subscribe("feed", fieldsNeeded, limits);
+    if (!this._hasStartedSubscription) {
+      return;
+    }
+    console.log("Running feed subscription", Date.now());
+    return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits);
   },
 
   // track changes in MiniMongo data store and merge with this.state
