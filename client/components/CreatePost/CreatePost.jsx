@@ -9,10 +9,8 @@ class CreatePost extends React.Component {
   render() {
     return (
       <div className='create-post'>
-        <textarea
-          placeholder="Let us know what you think!"
-          onChange={ this.updateDesc.bind(this) }>
-        </textarea>
+        <textarea placeholder="Let us know what you think!"
+                  onChange={ this.updateDesc.bind(this) } />
 
         <button onClick={ this.createPost.bind(this) }>
           Submit Post

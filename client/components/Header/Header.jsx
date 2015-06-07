@@ -19,7 +19,6 @@ this.Header = React.createClass({
           </div>
           <div className="nav">
             <a href="/feed">Feed Example</a>
-            <a href="/chats">Chat Example</a>
             <a href="/about">Simple Page Example</a>
             <div id="loginContainer" />
           </div>
