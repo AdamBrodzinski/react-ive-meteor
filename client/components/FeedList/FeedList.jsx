@@ -1,5 +1,4 @@
 /*global Posts, FeedItem */
-var PureRender = React.addons.PureRenderMixin;
 
 this.FeedList = React.createClass({
   mixins: [ReactMeteor.Mixin],

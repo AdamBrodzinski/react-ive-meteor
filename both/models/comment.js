@@ -1,4 +1,4 @@
-/*global PostComment:true, PostComments:true, User */
+/*global PostComment:true, PostComments:true, Post, User */
 // Comment is a global function so we can't use it, hence PostComment
 
 // NOTE, doing meteor data/collections this way loses much of Meteor's
@@ -9,11 +9,26 @@
 //
 // also, becauses i'm lazy, I made a file generator to create the below for you!
 
+
+var schema = {
+  createdAt: Date,
+  ownerId: String,
+  postId: String,
+  desc: String,
+  username: String,
+};
+
+
 PostComments = new Mongo.Collection('postComments', {transform: function(doc) {
   // make documents inherit our model, no IE8 support with __proto__
   doc.__proto__ = PostComment;
   return doc;
 }});
+
+// increment comment count on new comment
+PostComments.after.insert(function (userId, doc) {
+  Post.increment(doc.postId, 'commentCount');
+});
 
 
 // PostComment Model: add methods to here and your fetched data will have them for use
@@ -48,15 +63,6 @@ PostComment = {
   destroy: function(callback) {
     return Meteor.call('PostComment.destroy', this._id, callback);
   },
-};
-
-
-var schema = {
-  createdAt: Date,
-  ownerId: String,
-  postId: String,
-  desc: String,
-  username: String,
 };
 
 
@@ -116,7 +122,7 @@ Meteor.methods({
 
     count = PostComments.update(selector, {$set: data});
 
-    console.log("  [PostComment.update]", count, docId);
+    console.log("[PostComment.update]", count, docId);
     return count;
   },
 
@@ -135,7 +141,7 @@ Meteor.methods({
     // if caller doesn't own doc, destroy will fail because fields won't match
     var count = PostComments.remove({_id: docId, ownerId: User.id()});
 
-    console.log("  [PostComment.destroy]", count);
+    console.log("[PostComment.destroy]", count);
     return count;
   }
 });

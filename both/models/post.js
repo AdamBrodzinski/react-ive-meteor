@@ -69,6 +69,10 @@ Post = {
     return Meteor.call('Post.like', docId, callback);
   },
 
+  increment: function(docId, callback) {
+    return Meteor.call('Post.increment', docId, callback);
+  },
+
   // example method (not used in app)
   fullName: function() {
     return this.firstName + this.lastName;
@@ -185,6 +189,24 @@ Meteor.methods({
     var count = Posts.update({_id: docId}, {$inc: {likeCount: 1} });
 
     console.log("  [Post.like]", count);
+    return count;
+  },
+
+  /**
+   * Increment a field on Post doc, only allow comments to pass for now
+   * @method
+   * @param {string} docId - The doc id to like
+   * @returns {number} of documents updated (0|1)
+   */
+  "Post.increment": function(docId, fieldName) {
+    check(fieldName, "commentName");
+    if (User.loggedOut()) throw new Meteor.Error(401, "Login required");
+
+    var incField = {};
+    incField[fieldName] = 1;
+    var count = Posts.update({_id: docId}, {$inc: incField });
+
+    console.log("Post.increment]", count);
     return count;
   },
 });
