@@ -18,7 +18,7 @@ this.FeedItemFooter = React.createClass({
     return (
       <div className="feed-item__footer">
         <a href="#" onClick={ this.likePost }>Like</a>
-        <a href="#">Comment</a>
+        <a href="" onClick={false}>Comment</a>
 
         <span className='by-people'>
           Liked by {this.props.likeCount} people
