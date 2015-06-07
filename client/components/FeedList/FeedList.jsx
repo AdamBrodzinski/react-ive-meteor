@@ -8,6 +8,10 @@ this.FeedList = React.createClass({
     this.startMeteorSubscriptions();
   },
 
+  getInitialState() {
+    return { postLimit: 2 };
+  },
+
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
@@ -15,23 +19,28 @@ this.FeedList = React.createClass({
     // TODO implement a relay/graphql type of system
     var fieldsNeeded = {
       posts: {
-        _id: 1,
-        desc: 1,
-        likeCount: 1,
-        commentCount: 1,
-        userName: 1,
-        createdAt: 1,
-        ownerId: 1,
+        _id: true,
+        desc: true,
+        likeCount: true,
+        commentCount: true,
+        userName: true,
+        createdAt: true,
+        ownerId: true,
       },
       postComments: {
-        _id: 1,
-        createdAt: 1,
-        username: 1,
-        desc: 1,
-        postId: 1,
+        _id: true,
+        createdAt: true,
+        username: true,
+        desc: true,
+        postId: true,
       }
     };
-    return Meteor.subscribe("feed", fieldsNeeded);
+
+    var limits = {
+      posts: this.state.postLimit
+    };
+
+    return Meteor.subscribe("feed", fieldsNeeded, limits);
   },
 
   // track changes in MiniMongo data store and merge with this.state
@@ -40,9 +49,14 @@ this.FeedList = React.createClass({
   getMeteorState: function() {
     return {
       postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || [],
-      // watch comments store for changes TODO find a better way?
       allComments: PostComments.find().fetch()
     };
+  },
+
+  incrementLimit() {
+    var currLimit = this.state.postLimit;
+    this.setState({postLimit: currLimit + 3});
+    return this.state;
   },
 
   render() {
@@ -60,6 +74,10 @@ this.FeedList = React.createClass({
               destroyPost={ doc.destroy } />;
           })
         }
+        <button className='more-btn'
+            onClick={this.incrementLimit}>
+          Load More
+        </button>
       </div>
     );
   }

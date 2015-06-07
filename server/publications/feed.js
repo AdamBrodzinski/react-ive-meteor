@@ -1,7 +1,8 @@
 /*global Posts, PostComments */
 
-Meteor.publish('feed', function(fields) {
+Meteor.publish('feed', function(fields, limits) {
   console.log('Publishing Posts', fields);
+  console.log("LImit:", limits);
 
   // SECURITY NOTE
   // if this was data that could not be shown to a specific set of
@@ -17,23 +18,38 @@ Meteor.publish('feed', function(fields) {
   //        or
   //  if (Roles.userIsInRole(this.userId, 'admin'))
   //       throw new Meteor.Error(403, "Not authorized to view this data");
+  // -----------------------------------------------------------------------
 
-  if (!fields.posts || !fields.postComments._id) {
-    return this.ready();
-  }
 
-  // prevent passing in an empty field
-  if (!fields.posts._id || !fields.postComments._id) {
-    return this.ready();
-  }
+  // ensure *only* the fields we whitelist are passed in unless wrapped in
+  // Match.Optional it will be required. If any key does not match the
+  // publication will fail and throw an error
+  check(fields, {
+    posts: {
+      _id: Boolean,
+      desc: Boolean,
+      likeCount: Boolean,
+      commentCount: Boolean,
+      userName: Boolean,
+      createdAt: Boolean,
+      ownerId: Match.Optional(Boolean),
+    },
 
-  // TODO whitelist/blacklist fields
-  // XXX don't let empty object pass in for fields!
+    postComments: {
+      _id: Boolean,
+      createdAt: Boolean,
+      username: Boolean,
+      desc: Boolean,
+      postId: Boolean,
+    }
+  });
+
+  var sort = {createdAt: -1};
 
   // pass both Mongo cursors to publish function, both resources will show
   // up in clientside Mini-Mongo for querying
   return [
-    Posts.find({}, {fields: fields.posts}),
+    Posts.find({}, {fields: fields.posts, sort: sort, limit: limits.posts }),
     PostComments.find({}, {fields: fields.postComments})
   ];
 });
