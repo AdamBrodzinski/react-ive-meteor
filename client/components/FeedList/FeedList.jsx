@@ -66,7 +66,7 @@ this.FeedList = React.createClass({
         {
           this.state.postItems.map(doc => {
             // pull comments from MiniMongo client store
-            var comments = PostComments.find({postId: doc._id}).fetch();
+            var comments = PostComments.find({postId: doc._id}, {sort: {createdAt: -1}}).fetch();
 
             return <FeedItem key={doc._id}
               { ...doc }
