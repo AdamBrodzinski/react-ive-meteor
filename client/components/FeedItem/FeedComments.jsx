@@ -27,6 +27,7 @@ FeedComments = React.createClass({
 
   createComment(e) {
     e.preventDefault();
+    if (User.loggedOut()) return alert("You must be logged in to comment!");
 
     this.props.createComment({
       username: User.username(),

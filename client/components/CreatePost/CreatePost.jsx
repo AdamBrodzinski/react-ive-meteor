@@ -26,6 +26,7 @@ class CreatePost extends React.Component {
   }
 
   createPost() {
+    if (User.loggedOut()) return alert("You must be logged in to post!");
     if (!this.state.desc) return;
 
     Post.create({

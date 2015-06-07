@@ -11,6 +11,7 @@ this.FeedItemFooter = React.createClass({
   // *note* doesn't check for mult. like by same person on the backend
   likePost(e) {
     e.preventDefault();
+    if (User.loggedOut()) return alert("You must be logged in to like!");
     Post.like(this.props._id);
   },
 
