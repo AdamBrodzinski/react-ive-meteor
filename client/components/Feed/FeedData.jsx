@@ -13,6 +13,8 @@ this.FeedData = React.createClass({
         //postComments: 5 TODO
       },
 
+      // See basic-relay branch on the start of a relay like system were
+      // components ask for data at runtime.
       fieldsNeeded: {
         posts: {
           _id: true,
