@@ -42,7 +42,6 @@ this.FeedData = React.createClass({
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
     var postIds = this.state.postIds;
-    console.log(postIds);
     return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits, postIds);
   },
 
@@ -66,7 +65,8 @@ this.FeedData = React.createClass({
   },
 
   render() {
-    console.log("ids", this.state.postIds);
+    // XXX workaround for first render comments not updating, need to look at mixin
+    this.startMeteorSubscriptions();
     return <FeedList postItems={this.state.postItems} {...this.props} />;
   }
 });
