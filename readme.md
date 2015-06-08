@@ -3,7 +3,7 @@
 
 Building a backend for React can be difficult. Meteor makes this data fetching and syncing process easy. No more complicated fragile Flux code! If a user's mobile app marks a chat message as read, the desktop app will update instantly! Meteor also provides latency compensation for a really snappy UI.
 
-The data fetching layer of this app is based on the Flux and Relay ideas by allowing components ask for the data shape they need. Meteor and Flux/Relay overlap quite a bit so this example fills in the gaps without too much complexity.
+The data fetching layer of this app is based on the Flux and Relay ideas by allowing components ask for the data shape they need. Meteor and Flux/Relay overlap quite a bit so this example aims to fill in the gaps without too much complexity.
 
 The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress [Here][1]. Once this work is finished and released, this repo will be updated to use the official packages instead.
 
