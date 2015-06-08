@@ -9,7 +9,7 @@ this.FeedData = React.createClass({
   getInitialState() {
     return {
       limits: {
-        posts: 2
+        posts: 5
         //postComments: 5 TODO
       },
 

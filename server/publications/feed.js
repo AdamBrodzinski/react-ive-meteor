@@ -46,13 +46,28 @@ Meteor.publish('feed', function(fields, limits) {
     }
   });
 
+
+  // normally you can just return a cursor and call it a day (like commented out below)
+  // however we need to send the post comments at the same time
+  //return [
+    //Posts.find({}, {fields: fields.posts, sort: sort, limit: limits.posts }),
+    //PostComments.find({}, {fields: fields.postComments})
+  //];
+
+
   var sort = {createdAt: -1};
 
-  // pass both Mongo cursors to publish function, both resources will show
-  // up in clientside Mini-Mongo for querying
+  // XXX i'm sure there's a much better way to do this but not enough time, will finish later
+
+  var postIds = Posts.find({}, {fields: {_id: 1}, sort: sort, limit: limits.posts }).map(function(doc) {
+    return doc._id;
+  });
+  console.log(postIds);
+
   return [
+    //Posts.find({ _id: {$in: postIds} }, {sort: sort}), // this query doesn't want to auto update on create post
     Posts.find({}, {fields: fields.posts, sort: sort, limit: limits.posts }),
-    PostComments.find({}, {fields: fields.postComments})
+    PostComments.find({postId: {$in: postIds}}, {fields: fields.postComments})
   ];
 });
 
