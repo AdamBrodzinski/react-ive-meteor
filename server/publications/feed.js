@@ -2,7 +2,10 @@
 
 var optional = Match.Optional;
 
-Meteor.publish('feed', function(fields, limits) {
+Meteor.publish('feed', function(fields, limits, postIds) {
+  check(limits, {posts: Number});
+  check(postIds, Match.OneOf(null, [optional(String)]));
+
   console.log('Publishing Posts', fields);
   console.log("LImit:", limits);
 
@@ -36,7 +39,6 @@ Meteor.publish('feed', function(fields, limits) {
       createdAt: optional(Boolean),
       ownerId: optional(Boolean),
     },
-
     postComments: {
       _id: Boolean,  // id required for security
       createdAt: optional(Boolean),
@@ -46,26 +48,10 @@ Meteor.publish('feed', function(fields, limits) {
     }
   });
 
-
-  // normally you can just return a cursor and call it a day (like commented out below)
-  // however we need to send the post comments at the same time
-  //return [
-    //Posts.find({}, {fields: fields.posts, sort: sort, limit: limits.posts }),
-    //PostComments.find({}, {fields: fields.postComments})
-  //];
-
-
   var sort = {createdAt: -1};
 
-  // XXX i'm sure there's a much better way to do this but not enough time, will finish later
-
-  var postIds = Posts.find({}, {fields: {_id: 1}, sort: sort, limit: limits.posts }).map(function(doc) {
-    return doc._id;
-  });
-  console.log(postIds);
-
+  // returns Mongo Cursors
   return [
-    //Posts.find({ _id: {$in: postIds} }, {sort: sort}), // this query doesn't want to auto update on create post
     Posts.find({}, {fields: fields.posts, sort: sort, limit: limits.posts }),
     PostComments.find({postId: {$in: postIds}}, {fields: fields.postComments})
   ];

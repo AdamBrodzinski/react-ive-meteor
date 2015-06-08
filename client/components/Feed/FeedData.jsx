@@ -35,23 +35,15 @@ this.FeedData = React.createClass({
   },
 
   componentWillMount() {
-    this._hasStartedSubscription = false;
-    console.log("Waiting for children to subscribe to fields...", Date.now());
-
-    setTimeout(() => {
-      this._hasStartedSubscription = true;
-      this.startMeteorSubscriptions();
-    }, 1000);
+    this.startMeteorSubscriptions();
   },
 
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
-    if (!this._hasStartedSubscription) {
-      return;
-    }
-    console.log("Running feed subscription", Date.now());
-    return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits);
+    var postIds = this.state.postIds;
+    console.log(postIds);
+    return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits, postIds);
   },
 
   // track changes in MiniMongo data store and merge with this.state
@@ -60,7 +52,8 @@ this.FeedData = React.createClass({
   getMeteorState: function() {
     return {
       postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || [],
-      allComments: PostComments.find().fetch()
+      allComments: PostComments.find().fetch(),
+      postIds: Posts.find({}, {fields: {_id: 1}}).map(doc => doc._id)
     };
   },
 
@@ -73,6 +66,7 @@ this.FeedData = React.createClass({
   },
 
   render() {
+    console.log("ids", this.state.postIds);
     return <FeedList postItems={this.state.postItems} {...this.props} />;
   }
 });
