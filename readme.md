@@ -55,7 +55,7 @@ The rendering path looks something like this:
 - app is ready
 
 
-However if your app looks very *'app like'* and not *'webpage like'*, using 100% React views is probably a better approach. See the `full-react` branch to see how you can render React views in using the React-Router module.
+However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'page like'*, using 100% React views is a better approach. See the `full-react` branch to see how you can render React views in using the React-Router module.
 
 
 <br>
@@ -79,6 +79,13 @@ The whole data cycle looks like this:
 
 
 New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case.
+
+
+
+<br>
+## Flux
+This main branch of this app doesn't implement a full version of the Flux architecture spec and Relay. It aims to use most of the methodologies but use regular Meteor conventions to keep things simple. However there will be a Flux branch soon using the full spec.
+
 
 
 <br>
