@@ -60,5 +60,7 @@ User = {
   }
 
   // CRUD
+
+  // Create handles with Meteor login buttons
 };
 

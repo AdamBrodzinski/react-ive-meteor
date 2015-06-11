@@ -23,7 +23,7 @@ var schema = {
 
 
 Posts = new Mongo.Collection('posts', {transform: function(doc) {
-  // make documents inherit our model, no IE8 support with __proto__
+  // make documents inherit our model, no old IE support with __proto__
   doc.__proto__ = Post;
   return doc;
 }});
@@ -57,6 +57,7 @@ Post = {
     return Meteor.call('Post.create', data, callback);
   },
 
+  // TODO alow editing of post
   update: function(data, callback) {
     return Meteor.call('Post.update', this._id, data, callback);
   },
