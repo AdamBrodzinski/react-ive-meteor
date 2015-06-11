@@ -1,5 +1,16 @@
 // FeedData handles all data subscriptions and pushes data down to
-// children via props. Ideally all child state should be here too
+// children via props. Ideally all child state should be here too and
+// then be passed downward.
+//
+// ** Note ** this is designed to be a very simple replacement for
+// Flux's Dispatcher and Stores. This component will call any models
+// or any other things needed. Essentially it's a view controller but
+// the point is to keep it simple for smaller apps. Flux/Relay is ideal
+// for large apps.
+//
+// This file will have basic functionality for getting children's
+// required fields from their statics to help underfetching data. This
+// commit has them hard coded below due to a time crunch.
 
 /*global Posts, FeedList */
 
@@ -10,11 +21,11 @@ this.FeedData = React.createClass({
     return {
       limits: {
         posts: 5
-        //postComments: 5 TODO
+        //postComments: 5 XXX no comment limit
       },
 
-      // See basic-relay branch on the start of a relay like system were
-      // components ask for data at runtime.
+      // TODO have this component grab children's needed fields
+      // from their statics object
       fieldsNeeded: {
         posts: {
           _id: true,
@@ -43,6 +54,7 @@ this.FeedData = React.createClass({
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
+    // pass in postIds so we can subscribe to comments for all posts in local cache
     var postIds = this.state.postIds;
     return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits, postIds);
   },
@@ -58,6 +70,7 @@ this.FeedData = React.createClass({
     };
   },
 
+  // pass this down to children so they can increase the limit when needed
   incrementLimit() {
     var limits = _.extend({}, this.state.limits);
     limits.posts = limits.posts + 2;

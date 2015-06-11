@@ -14,7 +14,7 @@ FlowRouter.route('/feed',  { name: 'Feed',  action: renderView });
 // helper to layout the parent page view and log debug data
 function renderView() {
   renderMainLayoutWith(this.name);
-  console.log("[FlowRouter] Render page",this.name, FlowRouter._current.params);
+  console.log("[FlowRouter] params",this.name, FlowRouter._current.params);
 }
 
 function renderMainLayoutWith(view) {
