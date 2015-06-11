@@ -1,35 +1,45 @@
 # React-ive Meteor
 ### An Example of React with a Meteor Backend
 
-Building a backend for React can be difficult. Meteor makes this data fetching and syncing process easy. No more complicated fragile Flux code! If a user's mobile app marks a chat message as read, the desktop app will update instantly! Meteor also provides latency compensation for a really snappy UI.
 
-The data fetching layer of this app is based on the Flux and Relay ideas by allowing components ask for the data shape they need. Meteor and Flux/Relay overlap quite a bit so this example aims to fill in the gaps without too much complexity.
+Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with [optimistic UI updating][blogopp] with realtime data updates (view updates as DB records change).
+
+
+**TL;DR**
+
+This repo aims to be a sandbox that developers can learn how to create React apps with a Meteor backend. We'll have several branches with different ways to architect/use the app (such as a full flux spec). 
+
+Meteor and Flux/Relay overlap quite a bit so the master branch will be the most simple version that beginners can pickup and start running. 
+
+The data fetching layer of this app is based on the Flux and Relay ideas by allowing child components to declare the data field shape they need (coming soon). This data is passed down through props.
 
 The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress [Here][1]. Once this work is finished and released, this repo will be updated to use the official packages instead.
 
+
+<br>
 #### Benefits of using React with Meteor
 
-- Easy reactive data setup
+- UI updates when DB updates (if needed)
 - Hot code reloads
-- Latency compensation (optimistic updates)
+- Latency compensation (optimistic UI updates)
 - Easier data fetching than Flux
 - Mini-Mongo client data store (easy querying)
 - Query based data subscriptions (send me things for Feed)
 - Easy microservice implementations via DDP
 - Build system for preprocessing Sass, Babel, etc...
 - Clean server-side code with fibers (soon with ES7 async/await)
-- Modular structure, swap out any components you wish
+- Modular Meteor, swap out any default components you wish
 
 
 
 ### Cons of using Meteor
 - No official core SQL support yet (3rd party PostgreSQL and MySQL avail.)
 - Limited server-side rendering (no first page html, but can send data if needed)
-- No client-side module file import system (yet), uses global namespaces instead
+- No client-side file import system yet, uses packages, global namespaces and file load order instead
 
 
 ### Fallacies of Meteor
-- Not secure, This has been resolved for quite a while... try to modify someone else's post!
+- Not secure, This has been resolved for quite a while... *try to modify someone else's post!*
 - Not scalable, Many companies are using Meteor with large user bases
 - Only supports Mongo, There's options just not official packages
 
@@ -48,20 +58,20 @@ In this setup, the router renders 'page' templates which have the sole responsib
 
 The rendering path looks something like this:
 
-- route /feed , routes.js loads static `client/pages/feed.html` template
-- `feed` template renders FeedList and CreatePost components
+- route /feed , routes.js render static `client/pages/feed.html` template
+- static `feed` template renders FeedList and CreatePost React components
 - FeedList sets up data pub/sub and renders children
 - CreatePost renders children
-- app is ready
+- view is ready
 
 
-However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'page like'*, using 100% React views is a better approach. See the `full-react` branch to see how you can render React views in using the React-Router module.
+However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'page like'*, using 100% React views is a better approach. See the `full-react` branch (soon) to see how you can render React views in using the React-Router module.
 
 
 <br>
 ## Data
 
-Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog).
+Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog). Using the MeteorMixin, this new data is synced with your subscription/state which re-renders your views.
 
 This new data is sent into a store called Mini-Mongo. It acts like an in memory Mongo database which turns out to be a really convenient way to access store data. Since this is in memory, ops are very fast (basically a key/value lookup). If you were using the PostgreSQL database you would use SQL to query the Mini-PostgreSQL store instead.
 
@@ -78,20 +88,7 @@ The whole data cycle looks like this:
 - data flows from grandparent down to all children
 
 
-New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case.
-
-
-
-<br>
-## Flux
-This main branch of this app doesn't implement a full version of the Flux architecture spec and Relay. It aims to use most of the methodologies but use regular Meteor conventions to keep things simple. However there will be a Flux branch soon using the full spec.
-
-
-
-<br>
-## Latency Compensation
-
-Meteor uses it's integration with the data layer to provide optimistic updates to the UI. Instead of creating a post, showing a loading spinner, wait 800ms for a success response, removing spinner, and going to the next page; Meteor inserts a document into the Mini-Mongo cache and allows the UI to continue. The result is a very fast and snappy UI. If there was an error, it rewinds and undoes the changes. This brings up an important point. If the user tampers with a Model method on client-side data, it only effects their browser for this compensation period. The real code is executed on the server. If the client result differs from the server result then it's reverted back to the server result.
+New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case. We'll have a full flux/Relay branch for a more complex example of this.
 
 
 
@@ -99,6 +96,10 @@ Meteor uses it's integration with the data layer to provide optimistic updates t
 ## Meteor Methods
 
 Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call `Meteor.call('multiply', 2, 5);`. On the server the call would directly return `10` because we have fibers. On the client we can't block so the last argument would be a callback with params `error` and `response`. You also have access to a few resources inside the method like `this.userId`. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the `Authors.insert({name: 'foo'})` calls. However we're using our own model methods to bypass the hard to reason allow/deny rules.
+
+
+
+Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call `Meteor.call('multiply', 2, 5);`. On the server the call would directly return `10` because we have fibers. On the client we can't block so the last argument would be a callback with params `error` and `response`. You also have access to a few resources inside the method like `this.userId`. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the `Authors.insert({name: 'foo'})` calls. However we're using our own model methods to bypass the hard to reason allow/deny rules. The Meteor methods turn out to be pretty good at standing in for a Flux Dispatcher.
 
 
 
@@ -176,3 +177,4 @@ Meteor can be very magical out of the box. We'll turn off a lot of that and buil
 [modules]: #
 [docs-load]: http://docs.meteor.com/#/full/structuringyourapp
 [sec-vid]: https://vimeo.com/78294010
+[blogopp]: http://info.meteor.com/blog/optimistic-ui-with-meteor-latency-compensation
