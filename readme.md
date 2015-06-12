@@ -3,6 +3,8 @@
 
 ![](http://fat.gfycat.com/WindySentimentalHerculesbeetle.gif 'Feed Demo')
 
+<br><br>
+
 Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with [optimistic UI updating][blogopp] with realtime data updates (view updates as DB records change).
 
 
@@ -151,7 +153,9 @@ The **autopublish** package should also be removed. This will send your *entire*
 
 If you'd like to learn how to build an entire production app using Meteor and React, i'm finishing a screencast series that feels like a pair programing session. We'll start from scratch and build a production ready MVP of a photo sharing social network site. 
 
-Check it out here: [React Meteor Tutorials](http://react-meteor-tutorial.com)
+Check it out here:  
+
+### [react-meteor-tutorial.com](http://react-meteor-tutorial.com)
 
 - TDD React Views Effortlessly in Meteor
 - Scaling Production Meteor (no TODO apps here!)
@@ -178,7 +182,7 @@ Meteor can be very magical out of the box. We'll turn off a lot of that and buil
 
 
 [1]: https://github.com/meteor/react-packages
-[blaze-parent-ex]: #
+[blaze-parent-ex]: https://github.com/AdamBrodzinski/react-ive-meteor/blob/master/client/components/Feed/FeedData.jsx
 [pub-sec]: #
 [mgen]: https://github.com/AdamBrodzinski/meteor-generate
 [mgen-branch]: https://github.com/AdamBrodzinski/meteor-generate/tree/react
