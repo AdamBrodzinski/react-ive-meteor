@@ -61,7 +61,7 @@ These cons are on the core roadmap and will be resolved in the near future. Howe
 <br>
 ## Data
 
-![](http://blonk.co.s3.amazonaws.com/img/reactive-meteor-data.jpg)
+![](http://blonk.co.s3.amazonaws.com/img/reactive-meteor-data2.jpg)
 
 Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog). Using the MeteorMixin, this new data is synced with your subscription/state which re-renders your views.
 
