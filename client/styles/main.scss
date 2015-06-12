@@ -32,7 +32,7 @@ code {
 }
 
 .article li {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 html { box-sizing: border-box; }
@@ -69,3 +69,11 @@ html { box-sizing: border-box; }
   width: 25%;
 }
 
+.article figure {
+  margin: 0;
+  padding: 0;
+
+  img {
+    width: 100%;
+  }
+}
