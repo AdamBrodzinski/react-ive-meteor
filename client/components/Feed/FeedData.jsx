@@ -19,7 +19,7 @@ this.FeedData = React.createClass({
 
   getInitialState() {
     return {
-      records: {
+      recordCount: {
         posts: 5
         //postComments: 5 XXX no comment limit
       },
