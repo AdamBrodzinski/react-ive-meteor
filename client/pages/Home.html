@@ -1,29 +1,37 @@
 <template name='Home'>
   <div class="container--panel article">
+
     <h1 id="react-ivemeteor">React-ive Meteor</h1>
 
     <h3 id="anexampleofreactwithameteorbackend">An Example of React with a Meteor Backend</h3>
 
-    <p>Building a backend for React can be difficult. Meteor makes this data fetching and syncing process easy. No more complicated fragile Flux code! If a user's mobile app marks a chat message as read, the desktop app will update instantly! Meteor also provides latency compensation for a really snappy UI.</p>
+    <p>Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with <a href="http://info.meteor.com/blog/optimistic-ui-with-meteor-latency-compensation">optimistic UI updating</a> with realtime data updates (view updates as DB records change).</p>
 
-    <p>The data fetching layer of this app is based on the Flux and Relay ideas by allowing components ask for the data shape they need. Meteor and Flux/Relay overlap quite a bit so this example fills in the gaps without too much complexity.</p>
+    <p><strong>TL;DR</strong></p>
+
+    <p>This repo aims to be a sandbox that developers can learn how to create React apps with a Meteor backend. We'll have several branches with different ways to architect/use the app (such as a full flux spec). </p>
+
+    <p>Meteor and Flux/Relay overlap quite a bit so the master branch will be the most simple version that beginners can pickup and start running. </p>
+
+    <p>The data fetching layer of this app is based on the Flux and Relay ideas by allowing child components to declare the data field shape they need (coming soon). This data is passed down through props.</p>
 
     <p>The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress <a href="https://github.com/meteor/react-packages">Here</a>. Once this work is finished and released, this repo will be updated to use the official packages instead.</p>
 
-    <br>
-    <h3 id="benefitsofusingreactwithmeteor">Benefits of using React with Meteor</h3>
+    <p><br></p>
+
+    <h4 id="benefitsofusingreactwithmeteor">Benefits of using React with Meteor</h4>
 
     <ul>
-      <li>Easy reactive data setup</li>
+      <li>UI updates when DB updates (if needed)</li>
       <li>Hot code reloads</li>
-      <li>Latency compensation (optimistic updates)</li>
+      <li>Latency compensation (optimistic UI updates)</li>
       <li>Easier data fetching than Flux</li>
       <li>Mini-Mongo client data store (easy querying)</li>
       <li>Query based data subscriptions (send me things for Feed)</li>
       <li>Easy microservice implementations via DDP</li>
       <li>Build system for preprocessing Sass, Babel, etc...</li>
       <li>Clean server-side code with fibers (soon with ES7 async/await)</li>
-      <li>Modular structure, swap out any components you wish</li>
+      <li>Modular Meteor, swap out any default components you wish</li>
     </ul>
 
     <h3 id="consofusingmeteor">Cons of using Meteor</h3>
@@ -31,18 +39,18 @@
     <ul>
       <li>No official core SQL support yet (3rd party PostgreSQL and MySQL avail.)</li>
       <li>Limited server-side rendering (no first page html, but can send data if needed)</li>
-      <li>No client-side module file import system (yet), uses global namespaces instead</li>
+      <li>No client-side file import system yet, uses packages, global namespaces and file load order instead</li>
     </ul>
 
     <h3 id="fallaciesofmeteor">Fallacies of Meteor</h3>
 
     <ul>
-      <li>Not secure, This has been resolved for quite a while... try to modify someone else's post!</li>
+      <li>Not secure, This has been resolved for quite a while... <em>try to modify someone else's post!</em></li>
       <li>Not scalable, Many companies are using Meteor with large user bases</li>
       <li>Only supports Mongo, There's options just not official packages</li>
     </ul>
 
-    <p><i>These cons are on the core roadmap and will be resolved in the near future. However some of those could be blockers for your project.</i></p>
+    <p>These cons are on the core roadmap and will be resolved in the near future. However some of those could be blockers for your project.</p>
 
     <p><br><hr><br></p>
 
@@ -55,20 +63,20 @@
     <p>The rendering path looks something like this:</p>
 
     <ul>
-      <li>route /feed , routes.js loads static <code>client/pages/feed.html</code> template</li>
-      <li><code>feed</code> template renders FeedList and CreatePost components</li>
+      <li>route /feed , routes.js render static <code>client/pages/feed.html</code> template</li>
+      <li>static <code>feed</code> template renders FeedList and CreatePost React components</li>
       <li>FeedList sets up data pub/sub and renders children</li>
       <li>CreatePost renders children</li>
-      <li>app is ready</li>
+      <li>view is ready</li>
     </ul>
 
-    <p>However if your app looks very <em>'app like'</em> and not <em>'webpage like'</em>, using 100% React views is probably a better approach. See the <code>full-react</code> branch to see how you can render React views in using the React-Router module.</p>
+    <p>However if your app looks very <em>'app like'</em> (Spotify, Slack, etc...) and not <em>'page like'</em>, using 100% React views is a better approach. See the <code>full-react</code> branch (soon) to see how you can render React views in using the React-Router module.</p>
 
     <p><br></p>
 
     <h2 id="data">Data</h2>
 
-    <p>Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog).</p>
+    <p>Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog). Using the MeteorMixin, this new data is synced with your subscription/state which re-renders your views.</p>
 
     <p>This new data is sent into a store called Mini-Mongo. It acts like an in memory Mongo database which turns out to be a really convenient way to access store data. Since this is in memory, ops are very fast (basically a key/value lookup). If you were using the PostgreSQL database you would use SQL to query the Mini-PostgreSQL store instead.</p>
 
@@ -85,19 +93,15 @@
       <li>data flows from grandparent down to all children</li>
     </ul>
 
-    <p>New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case.</p>
-
-    <p><br></p>
-
-    <h2 id="latencycompensation">Latency Compensation</h2>
-
-    <p>Meteor uses it's integration with the data layer to provide optimistic updates to the UI. Instead of creating a post, showing a loading spinner, wait 800ms for a success response, removing spinner, and going to the next page; Meteor inserts a document into the Mini-Mongo cache and allows the UI to continue. The result is a very fast and snappy UI. If there was an error, it rewinds and undoes the changes. This brings up an important point. If the user tampers with a Model method on client-side data, it only effects their browser for this compensation period. The real code is executed on the server. If the client result differs from the server result then it's reverted back to the server result.</p>
+    <p>New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case. We'll have a full flux/Relay branch for a more complex example of this.</p>
 
     <p><br></p>
 
     <h2 id="meteormethods">Meteor Methods</h2>
 
-  <p>Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call <code>Meteor.call('multiply', 2, 5);</code>. On the server the call would directly return <code>10</code> because we have fibers. On the client we can't block so the last argument would be a callback with params <code>error</code> and <code>response</code>. You also have access to a few resources inside the method like <code>this.userId</code>. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the <code>Authors.insert({name: 'foo'})</code> calls. However we're using our own model methods to bypass the hard to reason allow/deny rules.</p>
+    <p>Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call <code>Meteor.call('multiply', 2, 5);</code>. On the server the call would directly return <code>10</code> because we have fibers. On the client we can't block so the last argument would be a callback with params <code>error</code> and <code>response</code>. You also have access to a few resources inside the method like <code>this.userId</code>. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the <code>Authors.insert({name: 'foo'})</code> calls. However we're using our own model methods to bypass the hard to reason allow/deny rules.</p>
+
+    <p>Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call <code>Meteor.call('multiply', 2, 5);</code>. On the server the call would directly return <code>10</code> because we have fibers. On the client we can't block so the last argument would be a callback with params <code>error</code> and <code>response</code>. You also have access to a few resources inside the method like <code>this.userId</code>. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the <code>Authors.insert({name: 'foo'})</code> calls. However we're using our own model methods to bypass the hard to reason allow/deny rules. The Meteor methods turn out to be pretty good at standing in for a Flux Dispatcher.</p>
 
     <p><br></p>
 
@@ -115,7 +119,7 @@
 
     <h2 id="codegenerator">Code Generator</h2>
 
-    <p>No one likes typing boilerplate. If this project's folder structure works for you, <a href="#">Meteor Generate</a> can save a lot of time. I'm in the middle of converting my old MVC patterns with Blaze over to Component structured React. This should be on NPM soon but in the mean time keep an eye out on <a href="#">this branch</a>. It creates models, pages, routes, React components with Sass styles, and more.</p>
+    <p>No one likes typing boilerplate. If this project's folder structure works for you, <a href="https://github.com/AdamBrodzinski/meteor-generate">Meteor Generate</a> can save a lot of time. I'm in the middle of converting my old MVC patterns with Blaze over to Component structured React. This should be on NPM soon but in the mean time keep an eye out on <a href="https://github.com/AdamBrodzinski/meteor-generate/tree/react">this branch</a>. It creates models, pages, routes, React components with Sass styles, and more.</p>
 
     <p><br></p>
 
@@ -134,27 +138,34 @@
 
     <h2 id="additionalresources">Additional Resources</h2>
 
-    <p>If you'd like to learn how to build an entire production app using Meteor and React, I have a screencast series that feels like a pair programing session. We'll start from scratch and build a production ready MVP. </p>
+    <p>If you'd like to learn how to build an entire production app using Meteor and React, i'm finishing a screencast series that feels like a pair programing session. We'll start from scratch and build a production ready MVP of a photo sharing social network site. </p>
 
-    <p>Check it out here: http://react-meteor-tutorial.com</p>
+    <p>Check it out here: <a href="http://react-meteor-tutorial.com">React Meteor Tutorials</a></p>
 
     <ul>
+      <li>TDD React Views Effortlessly in Meteor</li>
       <li>Scaling Production Meteor (no TODO apps here!)</li>
+      <li>Serverside processing</li>
+      <li>File uploads</li>
       <li>How to deploy with load balancing and elastic scaling</li>
       <li>Build for other mobile/desktop apps to connect to</li>
-      <li>TDD Views Effortlessly in Meteor</li>
       <li>Explain Meteor's magic</li>
+      <li>and more ...</li>
     </ul>
 
-    <p>I've built several production apps that handle thousands of users a day. Learn some tips and tricks on making a production app that won't tip over with a few hundred concurrent users.</p>
+    <p>We'll use techniques like TDD unit testing and acceptance testing to build a solid codebase. We'll talk about how to structure your app so it responds to change so it won't become brittle over time... something that other tutorials don't mention.</p>
 
-    <p>We'll go over how to build a photo sharing website using Agile and TDD testing. We'll even TDD our React views, something that was previously too slow to even consider.</p>
+    <p>We'll even TDD our React views, something that was previously too slow to even consider using traditional view frameworks.</p>
+
+    <p>I've built several production apps that handle thousands of users a day. Learn some tips and tricks on making a production Meteor app that won't tip over with a few hundred concurrent users.</p>
 
     <p>Meteor can be very magical out of the box. We'll turn off a lot of that and build things manually at first. You can always add in the magic if you'd like. At the end you'll have a solid understanding on how the system is working.</p>
 
-    <p>Part 2 - React with Meteor Cordova iOS &amp; Android Apps
-      Part 3 - React Native iOS with Meteor Backend (Running Meteor in React Native JS)
-      Part 4 - React OSX &amp; Windows Desktop App using Electron</p>
+    <ul>
+      <li>Part 2 - React with Meteor Cordova iOS &amp; Android Apps</li>
+      <li>Part 3 - React Native iOS with Meteor Backend (Running Meteor in React Native JS)</li>
+      <li>Part 4 - React OSX &amp; Windows Desktop App using Electron</li>
+    </ul>
 
   </div>
 </template>
