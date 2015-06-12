@@ -1,6 +1,7 @@
 # React-ive Meteor
 ### An Example of React with a Meteor Backend
 
+![](http://fat.gfycat.com/WindySentimentalHerculesbeetle.gif 'Feed Demo')
 
 Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with [optimistic UI updating][blogopp] with realtime data updates (view updates as DB records change).
 
@@ -48,6 +49,11 @@ These cons are on the core roadmap and will be resolved in the near future. Howe
 
 
 <br><hr><br>
+
+
+## Usage
+- `curl https://install.meteor.com/ | sh` [more info](https://www.meteor.com/install)  
+- `make dev` or `meter  --settings '.config/devel/settings.json'`
 
 
 ## Views
@@ -178,3 +184,4 @@ Meteor can be very magical out of the box. We'll turn off a lot of that and buil
 [docs-load]: http://docs.meteor.com/#/full/structuringyourapp
 [sec-vid]: https://vimeo.com/78294010
 [blogopp]: http://info.meteor.com/blog/optimistic-ui-with-meteor-latency-compensation
+[repo]: https://github.com/AdamBrodzinski/reactive-meteor
