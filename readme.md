@@ -60,7 +60,7 @@ These cons are on the core roadmap and will be resolved in the near future. Howe
 
 The master branch of this repo (and live example) use a mixture of Meteor's Blaze (handlebars like syntax) templates and React templates. Blaze is ideal for content that has no state and very little helpers. These large pages (like the about example) would be cumbersome to use in JSX.
 
-In this setup, the router renders 'page' templates which have the sole responsibility of handling static markup and rendering the topmost React components. These Blaze pages don't subscribe to data, that responsibility is for the topmost components.  [Example Code][2]
+In this setup, the router renders 'page' templates which have the sole responsibility of handling static markup and rendering the topmost React components. These Blaze pages don't subscribe to data, that responsibility is for the topmost components.  [Example Code][blaze-parent-ex]
 
 The rendering path looks something like this:
 
@@ -76,6 +76,8 @@ However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'p
 
 <br>
 ## Data
+
+![](http://blonk.co.s3.amazonaws.com/img/reactive-meteor-data.jpg)
 
 Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog). Using the MeteorMixin, this new data is synced with your subscription/state which re-renders your views.
 
@@ -176,7 +178,7 @@ Meteor can be very magical out of the box. We'll turn off a lot of that and buil
 
 
 [1]: https://github.com/meteor/react-packages
-[2]:#
+[blaze-parent-ex]: #
 [pub-sec]: #
 [mgen]: https://github.com/AdamBrodzinski/meteor-generate
 [mgen-branch]: https://github.com/AdamBrodzinski/meteor-generate/tree/react
