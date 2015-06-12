@@ -6,9 +6,11 @@
 
     <h3 id="anexampleofreactwithameteorbackend">An Example of React with a Meteor Backend</h3>
 
+
     <figure>
-      <img src="http://fat.gfycat.com/WindySentimentalHerculesbeetle.gif" alt="" title="Feed Demo" />
+      <img src="http://blonk.co.s3.amazonaws.com/img/reactive-meteor-data.jpg" alt="" />
     </figure>
+
 
     <p>Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with <a href="http://info.meteor.com/blog/optimistic-ui-with-meteor-latency-compensation">optimistic UI updating</a> with realtime data updates (view updates as DB records change).</p>
 
@@ -87,10 +89,6 @@
     <p><br></p>
 
     <h2 id="data">Data</h2>
-
-    <figure>
-      <img src="http://blonk.co.s3.amazonaws.com/img/reactive-meteor-data.jpg" alt="" />
-    </figure>
 
     <p>Fetching data with Meteor is quite different than a traditional REST system. Instead of making requests to single resource endpoints, you can subscribe to one or more publications of data. If this data in the database changes, you'll receive the new data in the client (instantly when using Mongo's Oplog). Using the MeteorMixin, this new data is synced with your subscription/state which re-renders your views.</p>
 
