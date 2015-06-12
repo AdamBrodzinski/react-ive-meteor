@@ -1,5 +1,5 @@
 # React-ive Meteor
-### An Example of React with a Meteor Backend
+### http://react-ive.meteor.com
 
 ![](http://fat.gfycat.com/WindySentimentalHerculesbeetle.gif 'Feed Demo')
 
@@ -58,24 +58,6 @@ These cons are on the core roadmap and will be resolved in the near future. Howe
 - `make dev` or `meter  --settings '.config/devel/settings.json'`
 
 
-## Views
-
-The master branch of this repo (and live example) use a mixture of Meteor's Blaze (handlebars like syntax) templates and React templates. Blaze is ideal for content that has no state and very little helpers. These large pages (like the about example) would be cumbersome to use in JSX.
-
-In this setup, the router renders 'page' templates which have the sole responsibility of handling static markup and rendering the topmost React components. These Blaze pages don't subscribe to data, that responsibility is for the topmost components.  [Example Code][blaze-parent-ex]
-
-The rendering path looks something like this:
-
-- route /feed , routes.js render static `client/pages/feed.html` template
-- static `feed` template renders FeedList and CreatePost React components
-- FeedList sets up data pub/sub and renders children
-- CreatePost renders children
-- view is ready
-
-
-However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'page like'*, using 100% React views is a better approach. See the `full-react` branch (soon) to see how you can render React views in using the React-Router module.
-
-
 <br>
 ## Data
 
@@ -99,6 +81,26 @@ The whole data cycle looks like this:
 
 
 New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case. We'll have a full flux/Relay branch for a more complex example of this.
+
+
+
+## Views
+
+The master branch of this repo (and live example) use a mixture of Meteor's Blaze (handlebars like syntax) templates and React templates. Blaze is ideal for content that has no state and very little helpers. These large pages (like the about example) would be cumbersome to use in JSX.
+
+In this setup, the router renders 'page' templates which have the sole responsibility of handling static markup and rendering the topmost React components. These Blaze pages don't subscribe to data, that responsibility is for the topmost components.  [Example Code][blaze-parent-ex]
+
+The rendering path looks something like this:
+
+- route /feed , routes.js render static `client/pages/feed.html` template
+- static `feed` template renders FeedList and CreatePost React components
+- FeedList sets up data pub/sub and renders children
+- CreatePost renders children
+- view is ready
+
+
+However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'page like'*, using 100% React views is a better approach. See the `full-react` branch (soon) to see how you can render React views in using the React-Router module.
+
 
 
 
