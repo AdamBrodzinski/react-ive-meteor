@@ -19,7 +19,7 @@ this.FeedData = React.createClass({
 
   getInitialState() {
     return {
-      limits: {
+      records: {
         posts: 5
         //postComments: 5 XXX no comment limit
       },
@@ -51,13 +51,16 @@ this.FeedData = React.createClass({
     this.startMeteorSubscriptions();
   },
 
+
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
-    // pass in postIds so we can subscribe to comments for all posts in local cache
-    var postIds = this.state.postIds;
-    return Meteor.subscribe("feed", this.state.fieldsNeeded, this.state.limits, postIds);
+    // pass in postIds so we can subscribe to comments for all posts in
+    // local cache, TODO, fix mongo query to do this all at one time
+    return Meteor.subscribe("feed", this.state.fieldsNeeded,
+                            this.state.recordCount, this.state.postIds);
   },
+
 
   // track changes in MiniMongo data store and merge with this.state
   // when they change. If new data is sent down from the publication

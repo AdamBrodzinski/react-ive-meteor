@@ -40,7 +40,7 @@ PostComments.after.insert(function (userId, doc) {
 // will ensure that user is allowed to mutate document.
 //
 // Running these Meteor.call's on the client will *only* run a simulation
-// and the server copy does the realy data mutating. This prevents users
+// and the server copy does the real data mutating. This prevents users
 // from tampering data. Trust *nothing* on the client!
 //
 // Ex:
