@@ -75,17 +75,17 @@ this.FeedData = React.createClass({
 
   // pass this down to children so they can increase the limit when needed
   incrementLimit() {
-    var limits = _.extend({}, this.state.limits);
-    limits.posts = limits.posts + 2;
+    var limits = _.extend({}, this.state.recordCount);
+    limits.posts = limits.posts + 5;
 
-    this.setState({limits: limits });
+    this.setState({recordCount: limits });
     return this.state;
   },
 
   render() {
     // XXX workaround for first render comments not updating, need to look at mixin
     this.startMeteorSubscriptions();
-    return <FeedList postItems={this.state.postItems} {...this.props} />;
+    return <FeedList incrementLimit={this.incrementLimit} postItems={this.state.postItems} {...this.props} />;
   }
 });
 

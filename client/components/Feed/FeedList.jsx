@@ -20,7 +20,7 @@ this.FeedList = React.createClass({
           })
         }
         <button className='more-btn'
-            onClick={this.incrementLimit}>
+            onClick={this.props.incrementLimit}>
           Load More
         </button>
       </div>
