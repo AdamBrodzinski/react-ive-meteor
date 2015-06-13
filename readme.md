@@ -23,8 +23,9 @@ The Meteor Development Group is working on making a deeper and more seamless int
 #### Benefits of using React with Meteor
 
 - UI updates when DB updates (if needed)
-- Hot code reloads
+- Isomorphic, share code on client and server
 - Latency compensation (optimistic UI updates)
+- Hot code reloads
 - Easier data fetching than Flux
 - Mini-Mongo client data store (easy querying)
 - Query based data subscriptions (send me things for Feed)
@@ -42,9 +43,10 @@ The Meteor Development Group is working on making a deeper and more seamless int
 
 
 ### Fallacies of Meteor
-- Not secure, This has been resolved for quite a while... *try to modify someone else's post!*
-- Not scalable, Many companies are using Meteor with large user bases
-- Only supports Mongo, There's options just not official packages
+- Not secure - This has been resolved for quite a while... *try to modify someone else's post!*
+- Not scalable - Many companies are using Meteor with large user bases
+- Only supports Mongo - There's options just not official packages
+- Meteor is only for realtime streams - works well with without realtime updates too!
 
 
 These cons are on the core roadmap and will be resolved in the near future. However some of those could be blockers for your project.
