@@ -5,7 +5,7 @@
 
 <br><br>
 
-Building a realtime backend for React can be difficult. Meteor makes it easy to have an app with [optimistic UI updating][blogopp] with realtime data updates (view updates as DB records change).
+Building a realtime backend for React can be difficult. Meteor makes it easy to build an app with [optimistic UI updating][blogopp] and realtime data streaming (view updates as DB records change).
 
 
 **TL;DR**
