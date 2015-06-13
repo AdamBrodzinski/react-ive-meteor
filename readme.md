@@ -157,7 +157,7 @@ If you'd like to learn how to build an entire production app using Meteor and Re
 
 Check it out here:  
 
-### [react-meteor-tutorial.com](http://react-meteor-tutorial.instapage.com)
+### [react-meteor-tutorial.com](http://react-meteor-tutorial.com)
 
 - TDD React Views Effortlessly in Meteor
 - Scaling Production Meteor (no TODO apps here!)
