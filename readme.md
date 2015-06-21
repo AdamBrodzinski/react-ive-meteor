@@ -22,17 +22,17 @@ The Meteor Development Group is working on making a deeper and more seamless int
 <br>
 #### Benefits of using React with Meteor
 
-- UI updates when DB updates (if needed)
-- Isomorphic, share code on client and server
-- Latency compensation (optimistic UI updates)
+- Automatic optimistic UI updates (latency compensation)
+- Universal JS shared on client and server (isomorphic)
+- Real time database updates (like Uber's realtime driver location)
 - Hot code reloads
 - Easier data fetching than Flux
-- Mini-Mongo client data store (easy querying)
-- Query based data subscriptions (send me things for Feed)
-- Easy microservice implementations via DDP
+- Mini-Mongo client data store (easy clientside querying)
 - Build system for preprocessing Sass, Babel, etc...
-- Clean server-side code with fibers (soon with ES7 async/await)
-- Modular Meteor, swap out any default components you wish
+- Clean server-side code with fibers (soon with promise ES7 async/await)
+- Query based data subscriptions instead of REST (also API REST supported)
+- Easy microservice implementations via DDP
+- Modular, swap out any default components you wish
 
 
 
@@ -45,7 +45,7 @@ The Meteor Development Group is working on making a deeper and more seamless int
 ### Fallacies of Meteor
 - Not secure - This has been resolved for quite a while... *try to modify someone else's post!*
 - Not scalable - Many companies are using Meteor with large user bases
-- Only supports Mongo - There's options just not official packages
+- Only supports Mongo - There's options just not official packages yet
 - Meteor is only for realtime streams - works well with without realtime updates too!
 
 
