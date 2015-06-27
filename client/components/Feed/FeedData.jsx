@@ -15,7 +15,7 @@
 /*global Posts, FeedList */
 
 this.FeedData = React.createClass({
-  mixins: [ReactMeteor.Mixin],
+  mixins: [ReactMeteorData],
 
   getInitialState() {
     return {
@@ -48,7 +48,6 @@ this.FeedData = React.createClass({
   },
 
   componentWillMount() {
-    this.startMeteorSubscriptions();
   },
 
 
@@ -58,16 +57,18 @@ this.FeedData = React.createClass({
     // pass in postIds so we can subscribe to comments for all posts in
     // local cache, TODO, fix mongo query to do this all at one time
     return Meteor.subscribe("feed", this.state.fieldsNeeded,
-                            this.state.recordCount, this.state.postIds);
+                            this.state.recordCount, this.data.postIds);
   },
 
 
   // track changes in MiniMongo data store and merge with this.state
   // when they change. If new data is sent down from the publication
   // this will still update to keep in sync with this.state
-  getMeteorState: function() {
+  getMeteorData: function() {
+    this.startMeteorSubscriptions();
+
     return {
-      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch() || [],
+      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch(),
       allComments: PostComments.find().fetch(),
       postIds: Posts.find({}, {fields: {_id: 1}}).map(doc => doc._id)
     };
@@ -83,9 +84,11 @@ this.FeedData = React.createClass({
   },
 
   render() {
-    // XXX workaround for first render comments not updating, need to look at mixin
-    this.startMeteorSubscriptions();
-    return <FeedList incrementLimit={this.incrementLimit} postItems={this.state.postItems} {...this.props} />;
+    return <FeedList
+      incrementLimit={this.incrementLimit}
+      postItems={this.data.postItems}
+      {...this.props}
+    />;
   }
 });
 

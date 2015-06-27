@@ -7,8 +7,6 @@
 var PureRender = React.addons.PureRenderMixin;
 
 this.FeedItem = React.createClass({
-  mixins: [ReactMeteor.Mixin, PureRender],
-
   propTypes: {
     desc: React.PropTypes.string.isRequired,
   },

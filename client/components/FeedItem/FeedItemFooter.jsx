@@ -1,8 +1,6 @@
-/*global Post */
+/*global Post, User */
 
 this.FeedItemFooter = React.createClass({
-  mixins: [ReactMeteor.Mixin],
-
   fieldsNeeded: {
     likeCount: 1,
     commentCount: 1

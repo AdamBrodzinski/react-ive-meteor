@@ -1,8 +1,6 @@
 /*global FlowRouter */
 
 this.ParamsExample = React.createClass({
-  mixins: [ReactMeteor.Mixin],
-
   render() {
     return (
       <div className='params-example'>
