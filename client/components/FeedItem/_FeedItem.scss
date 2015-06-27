@@ -7,20 +7,19 @@
   margin-bottom: 12px;
   padding: 10px 10px 0 10px;
   background: white;
-  border: 1px solid #D3D3D3;
+  border: 1px solid #d3d3d3;
   font-size: 14px;
   line-height: 1.4em;
   color: #242424;
   box-shadow: 0 0px 3px rgba(0, 0, 0, 0.07);
   border-radius: 3px;
-  border-bottom-color: #BEBEBE;
+  border-bottom-color: #bebebe;
 
   .avatar {
     height: 40px;
     width: 40px;
     background: gray;
   }
-
 
   &__header {
     display: flex;
@@ -46,7 +45,6 @@
     }
   }
 
-
   &__footer {
     font-size: 13px;
     height: 23px;
@@ -60,11 +58,11 @@
     margin-left: -10px;
     margin-right: -10px;
     padding: 7px 10px;
-    background-color: #F7F8FA;
-    border-top: 1px solid #E5E5E5;
+    background-color: #f7f8fa;
+    border-top: 1px solid #e5e5e5;
 
     input {
-      border: 1px solid #CFCFCF;
+      border: 1px solid #cfcfcf;
       padding: 6px;
       font-size: 12px;
       width: 100%;
@@ -85,7 +83,7 @@
   padding: 7px 15px;
   margin: 10px 0 20px 200px; // FIXME
   background-color: $primary;
-  color: #FFF;
+  color: #ffffff;
   border: none;
   cursor: pointer;
 }
