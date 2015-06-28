@@ -16,7 +16,7 @@ Meteor and Flux/Relay overlap quite a bit so the master branch will be the most 
 
 The data fetching layer of this app is based on the Flux and Relay ideas by allowing child components to declare the data field shape they need (coming soon). This data is passed down through props.
 
-The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress [Here][1]. Once this work is finished and released, this repo will be updated to use the official packages instead.
+The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress [Here][1]. The master branch is using the preview release of this package.
 
 
 <br>
