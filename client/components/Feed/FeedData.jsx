@@ -47,10 +47,6 @@ this.FeedData = React.createClass({
     };
   },
 
-  componentWillMount() {
-  },
-
-
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
@@ -65,11 +61,11 @@ this.FeedData = React.createClass({
   // when they change. If new data is sent down from the publication
   // this will still update to keep in sync with this.state
   getMeteorData: function() {
-    this.startMeteorSubscriptions();
+    var sub = this.startMeteorSubscriptions();
 
     return {
+      feedReady: sub.ready(), // will make this re-run after sub is ready
       postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch(),
-      allComments: PostComments.find().fetch(),
       postIds: Posts.find({}, {fields: {_id: 1}}).map(doc => doc._id)
     };
   },
