@@ -38,7 +38,7 @@ The Meteor Development Group is working on making a deeper and more seamless int
 
 ### Cons of using Meteor
 - No official core SQL support yet (3rd party PostgreSQL and MySQL avail.)
-- Limited server-side rendering (no first page html, but can send data if needed)
+- Limited server-side rendering (follow [this repo](https://github.com/AdamBrodzinski/meteor-react-ssr-spike) for React Meteor SSR support )
 - No client-side file import system yet, uses packages, global namespaces and file load order instead
 
 
