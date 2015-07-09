@@ -1,4 +1,4 @@
-/*global Post, User */
+/*global PostActions */
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -9,10 +9,11 @@ class CreatePost extends React.Component {
   render() {
     return (
       <div className='create-post'>
-        <textarea placeholder="Let us know what you think!"
-                  onChange={ this.updateDesc.bind(this) } />
+        <textarea
+          placeholder="Let us know what you think!"
+          onChange={ this.updateDesc.bind(this) } />
 
-        <button onClick={ this.createPost.bind(this) }>
+        <button onClick={ this.handleClick.bind(this) }>
           Submit Post
         </button>
       </div>
@@ -25,15 +26,12 @@ class CreatePost extends React.Component {
     });
   }
 
-  createPost() {
-    if (User.loggedOut()) return alert("You must be logged in to post!");
-    if (!this.state.desc) return;
-
-    Post.create({
-      desc: this.state.desc,
-      userName: User.username()
-    }, this.onError);
-    this.resetForm();
+  // TODO handle error
+  handleClick() {
+    if (this.state.desc) {
+      PostActions.createPost({ desc: this.state.desc });
+      this.resetForm();
+    }
   }
 
   onError(err, res) {
