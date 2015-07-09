@@ -6,6 +6,22 @@ class CreatePost extends React.Component {
     this.state = {};
   }
 
+  updateDesc(e) {
+    this.setState({
+      desc: e.target.value
+    });
+  }
+
+  handleClick() {
+    PostActions.createPost({ desc: this.state.desc });
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.setState({});
+    $('textarea').val('');
+  }
+
   render() {
     return (
       <div className='create-post'>
@@ -18,33 +34,6 @@ class CreatePost extends React.Component {
         </button>
       </div>
     );
-  }
-
-  updateDesc(e) {
-    this.setState({
-      desc: e.target.value
-    });
-  }
-
-  // TODO handle error
-  handleClick() {
-    if (this.state.desc) {
-      PostActions.createPost({ desc: this.state.desc });
-      this.resetForm();
-    }
-  }
-
-  onError(err, res) {
-    if (err && err.error === 401) {
-      alert("You need to login before creating a post");
-    } else if (err) {
-      alert("Server error");
-    }
-  }
-
-  resetForm() {
-    this.setState({});
-    $('textarea').val('');
   }
 }
 

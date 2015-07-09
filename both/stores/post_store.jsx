@@ -2,15 +2,23 @@
 
 PostStore = {
   handleCreatePost(data) {
-    if (User.loggedOut()) {
-      return alert("You must be logged in to post!");
-    }
+    if (!data.desc) return;
 
     Post.create({
       desc: data.desc,
       userName: User.username()
-    });
+    },
+    this._handleServerError);
+
     console.log('[PostStore.handleCreatePost]', data);
+  },
+
+  _handleServerError(err) {
+    if (err && err.error === 401) {
+      alert("You need to login before creating a post");
+    } else if (err) {
+      alert("Server error");
+    }
   }
 };
 
