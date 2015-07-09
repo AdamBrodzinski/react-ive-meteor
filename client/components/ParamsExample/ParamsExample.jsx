@@ -1,4 +1,4 @@
-/*global FlowRouter */
+/*global FlowRouter, FeedStore */
 
 this.ParamsExample = React.createClass({
   render() {
@@ -13,23 +13,15 @@ this.ParamsExample = React.createClass({
           data changes
         </p>
 
-        {/*  https://github.com/meteorhacks/flow-router#api  */}
-        <b>Step:</b> { FlowRouter.getQueryParam('step') }
+        <b>Step:</b> { FeedStore.getStepParam() }
 
         <br /><br />
 
-        <button onClick={ this.incStep }>
+        <button onClick={ FeedActions.incrementStepParam }>
           Press to Increment Step Query Params
         </button>
       </div>
     );
-  },
-
-  incStep() {
-    var currentStep = FlowRouter.getQueryParam('step') || 0;
-    var nextStep = parseInt(currentStep) + 1;
-    FlowRouter.setQueryParams({ step: nextStep });
   }
-
 });
 

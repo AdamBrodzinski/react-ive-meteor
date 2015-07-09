@@ -3,5 +3,9 @@
 FeedActions = {
   incrementPostLimit(amount) {
     FeedStore.handleIncrementPostLimit(amount);
+  },
+
+  incrementStepParam() {
+    FeedStore.handleIncrementStepParam();
   }
 };
