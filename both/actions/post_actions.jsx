@@ -3,6 +3,10 @@
 PostActions = {
   createPost(data) {
     PostStore.handleCreatePost(data);
+  },
+
+  likePost(docId) {
+    PostStore.handleLikePost(docId);
   }
 };
 

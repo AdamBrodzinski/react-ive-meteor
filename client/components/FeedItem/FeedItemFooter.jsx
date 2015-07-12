@@ -1,4 +1,4 @@
-/*global Post, User */
+/*global User */
 
 this.FeedItemFooter = React.createClass({
   fieldsNeeded: {
@@ -7,16 +7,16 @@ this.FeedItemFooter = React.createClass({
   },
 
   // *note* doesn't check for mult. like by same person on the backend
-  likePost(e) {
+  handleLikeClick(e) {
     e.preventDefault();
-    if (User.loggedOut()) return alert("You must be logged in to like!");
-    Post.like(this.props._id);
+    if (User.loggedOut()) return ErrorActions.needLogin();
+    PostActions.likePost(this.props._id);
   },
 
   render() {
     return (
       <div className="feed-item__footer">
-        <a href="#" onClick={ this.likePost }>Like</a>
+        <a href="#" onClick={ this.handleLikeClick }>Like</a>
         <a href="" onClick={false}>Comment</a>
 
         <span className='by-people'>
