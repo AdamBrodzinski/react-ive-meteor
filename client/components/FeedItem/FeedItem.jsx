@@ -4,15 +4,12 @@
   FeedComments
 */
 
-var PureRender = React.addons.PureRenderMixin;
-
 this.FeedItem = React.createClass({
   propTypes: {
     desc: React.PropTypes.string.isRequired,
   },
 
   render() {
-    console.log("[FeedItem] rendering");
     return (
       <div className='feed-item'>
         <FeedItemHeader {...this.props} />
@@ -26,7 +23,5 @@ this.FeedItem = React.createClass({
         <FeedComments {...this.props} />
       </div>
     );
-  },
-
+  }
 });
-
