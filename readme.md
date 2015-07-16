@@ -151,40 +151,6 @@ The **autopublish** package should also be removed. This will send your *entire*
 
 
 
-
-<br>
-## Additional Resources
-
-If you'd like to learn how to build an entire production app using Meteor and React, i'm finishing a screencast series that feels like a pair programing session. We'll start from scratch and build a production ready MVP of a photo sharing social network site. 
-
-Check it out here:  
-
-### [react-meteor-tutorial.com](http://react-meteor-tutorial.com)
-
-- TDD React Views Effortlessly in Meteor
-- Scaling Production Meteor (no TODO apps here!)
-- Serverside processing
-- File uploads
-- How to deploy with load balancing and elastic scaling
-- Build for other mobile/desktop apps to connect to
-- Explain Meteor's magic
-- and more ...
-
-
-We'll use techniques like TDD unit testing and acceptance testing to build a solid codebase. We'll talk about how to structure your app so it responds to change so it won't become brittle over time... something that other tutorials don't mention.
-
-We'll even TDD our React views, something that was previously too slow to even consider using traditional view frameworks.
-
-I've built several production apps that handle thousands of users a day. Learn some tips and tricks on making a production Meteor app that won't tip over with a few hundred concurrent users.
-
-Meteor can be very magical out of the box. We'll turn off a lot of that and build things manually at first. You can always add in the magic if you'd like. At the end you'll have a solid understanding on how the system is working.
-
-
-- Part 2 - React with Meteor Cordova iOS & Android Apps
-- Part 3 - React Native iOS with Meteor Backend (Running Meteor in React Native JS)
-- Part 4 - React OSX & Windows Desktop App using Electron
-
-
 [1]: https://github.com/meteor/react-packages
 [blaze-parent-ex]: https://github.com/AdamBrodzinski/react-ive-meteor/blob/master/client/components/Feed/FeedData.jsx
 [pub-sec]: #
