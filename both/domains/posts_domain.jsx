@@ -4,7 +4,7 @@ PostStore = {
   handleCreatePost(data) {
     if (!data.desc) return;
 
-    Post.create({
+    Meteor.call('Post.create', {
       desc: data.desc,
       userName: User.username()
     },
@@ -17,7 +17,7 @@ PostStore = {
   },
 
   handleLikePost(docId) {
-    Post.like(docId);
+    Meteor.call('Post.like', docId);
     console.log('[PostStore.handleLikePost]', docId);
   },
 
