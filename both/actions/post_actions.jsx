@@ -5,6 +5,10 @@ PostActions = {
     PostStore.handleCreatePost(data);
   },
 
+  deletePost(docId) {
+    PostStore.handleDeletePost(docId);
+  },
+
   likePost(docId) {
     PostStore.handleLikePost(docId);
   }

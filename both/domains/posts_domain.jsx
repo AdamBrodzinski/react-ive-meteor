@@ -12,6 +12,10 @@ PostStore = {
     console.log('[PostStore.handleCreatePost]', data);
   },
 
+  handleDeletePost(docId) {
+    Meteor.call('Post.destroy', docId);
+  },
+
   handleLikePost(docId) {
     Post.like(docId);
     console.log('[PostStore.handleLikePost]', docId);

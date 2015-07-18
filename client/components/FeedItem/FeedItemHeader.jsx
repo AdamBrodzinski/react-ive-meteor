@@ -1,4 +1,6 @@
-/*global User */
+/*global User, PostActions */
+/* jshint maxlen: false */
+
 
 this.FeedItemHeader = React.createClass({
   propTypes: {
@@ -13,9 +15,8 @@ this.FeedItemHeader = React.createClass({
     return date && this.props.createdAt.toDateString();
   },
 
-  handleDestroyPost() {
-    // calls Model instance #destroy
-    this.props.destroyPost();
+  handleClick() {
+    PostActions.deletePost(this.props._id);
   },
 
   render() {
@@ -30,7 +31,7 @@ this.FeedItemHeader = React.createClass({
         </div>
 
         { hasDeleteBtn &&
-          <div className="destroy" onClick={ this.handleDestroyPost }>
+          <div className="destroy" onClick={ this.handleClick }>
               Delete Post
           </div>
         }
