@@ -12,7 +12,7 @@
 // required fields from their statics to help underfetching data. This
 // commit has them hard coded below due to a time crunch.
 
-/*global Posts, FeedList */
+/*global Posts, FeedList, ReactMeteorData */
 
 this.FeedData = React.createClass({
   mixins: [ReactMeteorData],
@@ -83,8 +83,6 @@ this.FeedData = React.createClass({
     return <FeedList
       incrementLimit={this.incrementLimit}
       postItems={this.data.postItems}
-      {...this.props}
     />;
   }
 });
-
