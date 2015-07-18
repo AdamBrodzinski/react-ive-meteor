@@ -1,6 +1,6 @@
 /*global FeedItem */
 
-this.FeedList = React.createClass({
+class FeedList extends React.Component {
   // TODO break out more button into comp
   render() {
     console.log("[FeedList] Rendering");
@@ -26,5 +26,9 @@ this.FeedList = React.createClass({
       </div>
     );
   }
-});
+}
+FeedList.propTypes = {
+  comments: React.PropTypes.array,
+};
 
+this.FeedList = FeedList;
