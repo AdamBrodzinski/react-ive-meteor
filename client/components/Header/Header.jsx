@@ -28,4 +28,3 @@ this.Header = React.createClass({
     );
   }
 });
-

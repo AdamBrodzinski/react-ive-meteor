@@ -6,9 +6,9 @@ class CreatePost extends React.Component {
     this.state = {};
   }
 
-  updateDesc(e) {
+  handleChange() {
     this.setState({
-      desc: e.target.value
+      desc: this.refs.text.getDOMNode().value
     });
   }
 
@@ -26,8 +26,9 @@ class CreatePost extends React.Component {
     return (
       <div className='create-post'>
         <textarea
+          ref='text'
           placeholder="Let us know what you think!"
-          onChange={ this.updateDesc.bind(this) } />
+          onChange={ this.handleChange.bind(this) } />
 
         <button onClick={ this.handleClick.bind(this) }>
           Submit Post
@@ -38,4 +39,3 @@ class CreatePost extends React.Component {
 }
 
 this.CreatePost = CreatePost;
-
