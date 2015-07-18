@@ -1,4 +1,4 @@
-this.CommentItem = React.createClass({
+class CommentItem extends React.Component {
   render() {
     return (
       <div className="comment-item">
@@ -19,6 +19,12 @@ this.CommentItem = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+CommentItem.propTypes = {
+  username: React.PropTypes.string,
+  desc: React.PropTypes.string,
+  createdAt: React.PropTypes.instanceOf(Date),
+};
 
+this.CommentItem = CommentItem;
