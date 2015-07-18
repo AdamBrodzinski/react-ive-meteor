@@ -1,6 +1,10 @@
 /*global FeedStore:true, FlowRouter */
 
 FeedStore = {
+  handleCreateComment(data) {
+    PostComment.create(data);
+  },
+
   handleIncrementPostLimit(amount) {
     console.log('[FeedStore.incrementPostLimit]', amount);
     // TODO

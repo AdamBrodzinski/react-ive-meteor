@@ -15,7 +15,6 @@ class FeedList extends React.Component {
               { ...doc }
               comments={ comments }
               destroyPost={ doc.destroy }
-              createComment={ PostComment.create }
             />;
           })
         }
