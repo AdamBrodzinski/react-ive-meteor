@@ -37,15 +37,5 @@ this.FeedItemHeader = React.createClass({
         }
       </div>
     );
-  },
-
-  renderDeleteButton() {
-    if (this.props.ownerId === User.id()) {
-      return (
-        <div className="destroy" onClick={ this.handleDestroyPost }>
-          Delete Post
-        </div>
-      );
-    }
   }
 });

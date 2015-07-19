@@ -18,7 +18,6 @@ PostsDomain = {
 
   handleLikePost(docId) {
     Meteor.call('Post.like', docId);
-    console.log('[PostStore.handleLikePost]', docId);
   },
 
   // TODO call error action and put in ErrorStore
