@@ -9,7 +9,7 @@
 
 /*global FeedList, ReactMeteorData, FeedDomain */
 
-this.FeedData = React.createClass({
+this.FeedContainer = React.createClass({
   mixins: [ReactMeteorData],
 
   getInitialState() {
