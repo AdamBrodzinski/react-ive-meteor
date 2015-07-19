@@ -1,4 +1,4 @@
-/*global Post:true, Posts:true, User */
+/*global Mongo, Post:true, Posts:true, User */
 
 // NOTE, doing meteor data/collections this way loses much of Meteor's
 // 'magic' and makes more work for us but i'm totally ok trading convenience
@@ -21,12 +21,7 @@ var schema = {
   commentCount: Number
 };
 
-
-Posts = new Mongo.Collection('posts', {transform: function(doc) {
-  // make documents inherit our model, no old IE support with __proto__
-  doc.__proto__ = Post;
-  return doc;
-}});
+Posts = new Mongo.Collection('posts');
 
 // optionally run hook to log, audit, or denormalize mongo data
 Posts.after.insert(function (userId, doc) {
@@ -34,53 +29,31 @@ Posts.after.insert(function (userId, doc) {
 });
 
 
-// Post Model: add methods to here and your fetched data will have them for use
+// Post Model
 //
-// TODO If you don't have the model instance on the client, you can pass in the
-// id as the first param and it will use that instead. security checks
-// will ensure that a user is allowed to mutate their own document.
+// Pass the doc id in as the first param, security checks will ensure
+// that a user is only allowed to mutate their own document.
 //
 // Running these Meteor.call's on the client will *only* run a simulation
-// and the server copy does the realy data mutating. This prevents users
-// from tampering data. Trust *nothing* on the client!
+// for optimistic UI and the server copy does the realy data mutating.
+// This prevents users from tampering data. Trust *nothing* on the client!
 //
-// Ex:
-//    var post = Posts.findOne({_id: '123'});
-//    post.fullName();
-//    post.like();
-//    post.update({desc: 'Hello'});
+// The PostDomain now directly calls the Meteor method instead of having a
+// fat model. This approach is more oriented towards Flux and makes it easier
+// to reason about data flow. Domains should be the only thing calling these
+// model methods (on the client) and the domain method should only be called
+// by an action (views never mutate data)
 //
-//    Post.update('123', {desc: 'Goodbye'});
+// Example:
 //
-Post = {
-  create: function(data, callback) {
-    return Meteor.call('Post.create', data, callback);
-  },
-
-  // TODO alow editing of post
-  update: function(data, callback) {
-    return Meteor.call('Post.update', this._id, data, callback);
-  },
-
-  destroy: function(callback) {
-    return Meteor.call('Post.destroy', this._id, callback);
-  },
-
-  like: function(docId, callback) {
-    return Meteor.call('Post.like', docId, callback);
-  },
-
-  increment: function(docId, callback) {
-    return Meteor.call('Post.increment', docId, callback);
-  },
-
-  // example method (not used in app)
-  fullName: function() {
-    return this.firstName + this.lastName;
-  }
-};
-
-
+//   Meteor.call('Post.create' {
+//     desc: 'Hello World',
+//   });
+//
+//   Meteor.call('Post.update', '1234', {
+//     desc: 'Goodbye World',
+//   });
+//
 // ** Security README **
 //
 // all Post insert, update & delete MiniMongo methods are disabled on the client
@@ -91,7 +64,7 @@ Post = {
 // compensation. if you need to hide the model logic, move the methods into the
 // server directory. doing so will lose latency compensation, however a stub
 // can be created on the client folder to re-enable latency compensation.
-//
+
 Meteor.methods({
   /**
    * Creates a Post document

@@ -1,35 +1,29 @@
-/*global FlowRouter */
+/*global FeedDomain, FeedActions */
+/* jshint maxlen: false */
 
 this.ParamsExample = React.createClass({
+  handleClick() {
+    FeedActions.incrementStepParam();
+  },
+
   render() {
+    var stepNumber = FeedDomain.getStepParam();
     return (
       <div className='params-example'>
-        <h4>
-          Reactive Query Params
-        </h4>
+        <h4>Reactive Query Params</h4>
+
         <p>
           FlowRouter provides a reactive API that will
           allows for automatic render updates when the
           data changes
         </p>
 
-        {/*  https://github.com/meteorhacks/flow-router#api  */}
-        <b>Step:</b> { FlowRouter.getQueryParam('step') }
+        <b>Step:</b> { stepNumber } <br/><br/>
 
-        <br /><br />
-
-        <button onClick={ this.incStep }>
+        <button onClick={ this.handleClick }>
           Press to Increment Step Query Params
         </button>
       </div>
     );
-  },
-
-  incStep() {
-    var currentStep = FlowRouter.getQueryParam('step') || 0;
-    var nextStep = parseInt(currentStep) + 1;
-    FlowRouter.setQueryParams({ step: nextStep });
   }
-
 });
-

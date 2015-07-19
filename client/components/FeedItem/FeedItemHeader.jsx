@@ -1,42 +1,41 @@
+/*global User, PostActions */
+/* jshint maxlen: false */
+
+
 this.FeedItemHeader = React.createClass({
-  fieldsNeeded: {
-    userName: 1,
-    createdAt: 1
+  propTypes: {
+    userName: React.PropTypes.string,
+    ownerId: React.PropTypes.string,
+    destroyPost: React.PropTypes.func,
+    createdAt: React.PropTypes.instanceOf(Date),
+  },
+
+  formatDate() {
+    var date = this.props.createdAt;
+    return date && this.props.createdAt.toDateString();
+  },
+
+  handleClick() {
+    PostActions.deletePost(this.props._id);
   },
 
   render() {
+    var hasDeleteBtn = this.props.ownerId === User.id();
     return (
       <div className="feed-item__header">
         <div className="avatar" />
 
         <div className='name-date'>
           <div className="name">{this.props.userName}</div>
-          <div className="date">{this.formattedDate()}</div>
+          <div className="date">{this.formatDate()}</div>
         </div>
 
-        { this.renderDeleteButton() }
+        { hasDeleteBtn &&
+          <div className="destroy" onClick={ this.handleClick }>
+              Delete Post
+          </div>
+        }
       </div>
     );
-  },
-
-  // even if client can render this on all buttons, server will deny bad deletes
-  renderDeleteButton() {
-    if (this.props.ownerId === User.id()) {
-      return (
-        <div className="destroy" onClick={ this.destroyPost }>
-          Delete Post
-        </div>
-      );
-    }
-  },
-
-  destroyPost() {
-    this.props.destroyPost();
-  },
-
-  formattedDate() {
-    var date = this.props.createdAt;
-    return date && this.props.createdAt.toDateString();
   }
 });
-

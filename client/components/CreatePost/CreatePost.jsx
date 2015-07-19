@@ -1,4 +1,4 @@
-/*global Post, User */
+/*global PostActions */
 
 class CreatePost extends React.Component {
   constructor(props) {
@@ -6,49 +6,36 @@ class CreatePost extends React.Component {
     this.state = {};
   }
 
-  render() {
-    return (
-      <div className='create-post'>
-        <textarea placeholder="Let us know what you think!"
-                  onChange={ this.updateDesc.bind(this) } />
-
-        <button onClick={ this.createPost.bind(this) }>
-          Submit Post
-        </button>
-      </div>
-    );
-  }
-
-  updateDesc(e) {
+  handleChange() {
     this.setState({
-      desc: e.target.value
+      desc: this.refs.text.getDOMNode().value
     });
   }
 
-  createPost() {
-    if (User.loggedOut()) return alert("You must be logged in to post!");
-    if (!this.state.desc) return;
-
-    Post.create({
-      desc: this.state.desc,
-      userName: User.username()
-    }, this.onError);
+  handleClick() {
+    PostActions.createPost({ desc: this.state.desc });
     this.resetForm();
-  }
-
-  onError(err, res) {
-    if (err && err.error === 401) {
-      alert("You need to login before creating a post");
-    } else if (err) {
-      alert("Server error");
-    }
   }
 
   resetForm() {
     this.setState({});
     $('textarea').val('');
   }
+
+  render() {
+    return (
+      <div className='create-post'>
+        <textarea
+          ref='text'
+          placeholder="Let us know what you think!"
+          onChange={ this.handleChange.bind(this) } />
+
+        <button onClick={ this.handleClick.bind(this) }>
+          Submit Post
+        </button>
+      </div>
+    );
+  }
 }
 
 this.CreatePost = CreatePost;
-
