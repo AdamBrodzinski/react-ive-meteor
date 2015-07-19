@@ -1,4 +1,4 @@
-/*global Posts, PostComments */
+/*global Posts, Comments */
 
 var optional = Match.Optional;
 
@@ -52,7 +52,7 @@ Meteor.publish('feed', function(fields, limits, postIds) {
   // returns Mongo Cursors
   return [
     Posts.find({}, {fields: fields.posts, sort: {createdAt: -1}, limit: limits.posts}),
-    PostComments.find({postId: {$in: postIds ? postIds : []}}, {fields: fields.postComments})
+    Comments.find({postId: {$in: postIds ? postIds : []}}, {fields: fields.postComments})
   ];
 });
 
