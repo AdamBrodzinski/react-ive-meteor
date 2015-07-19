@@ -1,4 +1,4 @@
-/*global PostComment:true, PostComments:true, Post, User */
+/*global Mongo, PostComment:true, PostComments:true, Post, User */
 // Comment is a global function so we can't use it, hence PostComment
 
 // NOTE, doing meteor data/collections this way loses much of Meteor's
@@ -8,6 +8,7 @@
 // security. Perhaps someone can submit a branch using this methodology too!
 //
 // also, becauses i'm lazy, I made a file generator to create the below for you!
+// https://github.com/AdamBrodzinski/meteor-generate/tree/react
 
 
 var schema = {
@@ -18,52 +19,12 @@ var schema = {
   username: String,
 };
 
-
-PostComments = new Mongo.Collection('postComments', {transform: function(doc) {
-  // make documents inherit our model, no IE8 support with __proto__
-  doc.__proto__ = PostComment;
-  return doc;
-}});
+PostComments = new Mongo.Collection('postComments');
 
 // increment comment count on new comment
 PostComments.after.insert(function (userId, doc) {
   Post.increment(doc.postId, 'commentCount');
 });
-
-
-// PostComment Model: add methods to here and your fetched data will have them for use
-//
-// CRUD facade allows you to call Meteor DDP methods more elegantly.
-//
-// If you don't have the model instance on the client, you can pass in the
-// id as the first param and it will use that instead, security checks
-// will ensure that user is allowed to mutate document.
-//
-// Running these Meteor.call's on the client will *only* run a simulation
-// and the server copy does the real data mutating. This prevents users
-// from tampering data. Trust *nothing* on the client!
-//
-// Ex:
-//    var postComment = PostComments.findOne({_id: '123'});
-//    postComment.fullName();
-//    postComment.like();
-//    postComment.update({desc: 'Hello'});
-//
-//    PostComment.update('123', {desc: 'Goodbye'});
-//
-PostComment = {
-  create: function(data, callback) {
-    return Meteor.call('PostComment.create', data, callback);
-  },
-
-  update: function(data, callback) {
-    return Meteor.call('PostComment.update', this._id, data, callback);
-  },
-
-  destroy: function(callback) {
-    return Meteor.call('PostComment.destroy', this._id, callback);
-  },
-};
 
 
 // ** Security README **
@@ -76,7 +37,7 @@ PostComment = {
 // compensation. if you need to hide the model logic, move the methods into the
 // server directory. doing so will lose latency compensation, however a stub
 // can be created on the client folder to re-enable latency compensation.
-//
+
 Meteor.methods({
   /**
    * Creates a PostComment document
