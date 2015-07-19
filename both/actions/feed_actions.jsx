@@ -1,15 +1,15 @@
-/*global FeedActions:true, FeedStore */
+/*global FeedActions:true, FeedDomain */
 
 FeedActions = {
   incrementPostLimit(amount) {
-    FeedStore.handleIncrementPostLimit(amount);
+    FeedDomain.handleIncrementPostLimit(amount);
   },
 
   incrementStepParam() {
-    FeedStore.handleIncrementStepParam();
+    FeedDomain.handleIncrementStepParam();
   },
 
   createComment(data) {
-    FeedStore.handleCreateComment(data);
+    FeedDomain.handleCreateComment(data);
   }
 };

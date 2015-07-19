@@ -1,6 +1,6 @@
-/*global PostStore:true, User, Post */
+/*global PostsDomain:true, User, Post */
 
-PostStore = {
+PostsDomain = {
   handleCreatePost(data) {
     if (!data.desc) return;
 
@@ -30,4 +30,3 @@ PostStore = {
     }
   }
 };
-

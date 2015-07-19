@@ -1,16 +1,16 @@
-/*global PostActions:true, PostStore */
+/*global PostActions:true, PostsDomain */
 
 PostActions = {
   createPost(data) {
-    PostStore.handleCreatePost(data);
+    PostsDomain.handleCreatePost(data);
   },
 
   deletePost(docId) {
-    PostStore.handleDeletePost(docId);
+    PostsDomain.handleDeletePost(docId);
   },
 
   likePost(docId) {
-    PostStore.handleLikePost(docId);
+    PostsDomain.handleLikePost(docId);
   }
 };
 
