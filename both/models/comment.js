@@ -22,7 +22,7 @@ Comments = new Mongo.Collection('postComments');
 
 // increment comment count on new comment
 Comments.after.insert(function (userId, doc) {
-  Post.increment(doc.postId, 'commentCount');
+  Meteor.call('Post.increment', doc.postId, 'commentCount');
 });
 
 

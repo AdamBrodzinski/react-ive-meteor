@@ -1,13 +1,14 @@
 /*global FeedDomain:true, FlowRouter */
 
 FeedDomain = {
+  // this might go in a CommentsDomain but since we only have 1 method...
   handleCreateComment(data) {
-    PostComment.create(data);
+    Meteor.call('Comment.create', data);
   },
 
   handleIncrementPostLimit(amount) {
-    console.log('[FeedDomain.incrementPostLimit]', amount);
     // TODO
+    console.log('[FeedDomain.incrementPostLimit]', amount);
   },
 
   // should params go in a RouteStore or ParamStore? perhaps overkill
