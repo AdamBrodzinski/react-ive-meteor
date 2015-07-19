@@ -1,18 +1,13 @@
 // FeedData handles all data subscriptions and pushes data down to
-// children via props. Ideally all child state should be here too and
-// then be passed downward.
+// children via props.
 //
-// ** Note ** this is designed to be a very simple replacement for
-// Flux's Dispatcher and Stores. This component will call any models
-// or any other things needed. Essentially it's a view controller but
-// the point is to keep it simple for smaller apps. Flux/Relay is ideal
-// for large apps.
+// This component is a container or 'view controller' and will gather
+// any data needed from the domain objects and handle subscriptions
 //
-// This file will have basic functionality for getting children's
-// required fields from their statics to help underfetching data. This
-// commit has them hard coded below due to a time crunch.
+// In a future version the children will be able to specify what fields
+// they need, however currently they're stored in this component.
 
-/*global Posts, FeedList, ReactMeteorData */
+/*global FeedList, ReactMeteorData, FeedDomain */
 
 this.FeedData = React.createClass({
   mixins: [ReactMeteorData],
@@ -50,23 +45,21 @@ this.FeedData = React.createClass({
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/posts.js
   startMeteorSubscriptions() {
-    // pass in postIds so we can subscribe to comments for all posts in
-    // local cache, TODO, fix mongo query to do this all at one time
-    return Meteor.subscribe("feed", this.state.fieldsNeeded,
-                            this.state.recordCount, this.data.postIds);
+    var fields = this.state.fieldsNeeded;
+    var postIds = this.data.postIds;
+    var recordCount = this.state.recordCount;
+    return Meteor.subscribe("feed", fields, recordCount, postIds);
   },
 
-
-  // track changes in MiniMongo data store and merge with this.state
-  // when they change. If new data is sent down from the publication
-  // this will still update to keep in sync with this.state
+  // re-renders view if any reactive data source changes. `sub` is reactive
+  // and will change when any new data is availible from subscription.
   getMeteorData: function() {
     var sub = this.startMeteorSubscriptions();
 
     return {
-      feedReady: sub.ready(), // will make this re-run after sub is ready
-      postItems: Posts.find({}, {sort: {createdAt: -1}}).fetch(),
-      postIds: Posts.find({}, {fields: {_id: 1}}).map(doc => doc._id)
+      feedReady: sub.ready(),
+      postItems: FeedDomain.getAllFeedPosts(),
+      postIds: FeedDomain.getPostCommentIds()
     };
   },
 
@@ -75,7 +68,7 @@ this.FeedData = React.createClass({
     var limits = _.extend({}, this.state.recordCount);
     limits.posts = limits.posts + 5;
 
-    this.setState({recordCount: limits });
+    this.setState({recordCount: limits});
     return this.state;
   },
 

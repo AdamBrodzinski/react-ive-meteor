@@ -8,8 +8,7 @@ class FeedList extends React.Component {
       <div>
         {
           this.props.postItems.map(doc => {
-            // pull comments from MiniMongo client store
-            var comments = Comments.find({postId: doc._id}, {sort: {createdAt: -1}}).fetch();
+            var comments = FeedDomain.getCommentsFromPostId(doc._id);
 
             return <FeedItem key={doc._id}
               { ...doc }
