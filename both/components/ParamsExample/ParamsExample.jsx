@@ -18,7 +18,9 @@ this.ParamsExample = React.createClass({
           data changes
         </p>
 
-        <b>Step:</b> { stepNumber } <br/><br/>
+        <div className="step-container">
+          <b>Step:</b> { stepNumber } <br/><br/>
+        </div>
 
         <button onClick={ this.handleClick }>
           Press to Increment Step Query Params
