@@ -1,4 +1,4 @@
-/*global FeedStore, FeedActions */
+/*global FeedDomain, FeedActions */
 /* jshint maxlen: false */
 
 this.ParamsExample = React.createClass({
@@ -7,6 +7,7 @@ this.ParamsExample = React.createClass({
   },
 
   render() {
+    var stepNumber = FeedDomain.getStepParam();
     return (
       <div className='params-example'>
         <h4>Reactive Query Params</h4>
@@ -17,7 +18,7 @@ this.ParamsExample = React.createClass({
           data changes
         </p>
 
-        <b>Step:</b> { FeedStore.getStepParam() } <br/><br/>
+        <b>Step:</b> { stepNumber } <br/><br/>
 
         <button onClick={ this.handleClick }>
           Press to Increment Step Query Params
