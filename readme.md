@@ -109,9 +109,6 @@ However if your app looks very *'app like'* (Spotify, Slack, etc...) and not *'p
 <br>
 ## Meteor Methods
 
-Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call `Meteor.call('multiply', 2, 5);`. On the server the call would directly return `10` because we have fibers. On the client we can't block so the last argument would be a callback with params `error` and `response`. You also have access to a few resources inside the method like `this.userId`. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the `Authors.insert({name: 'foo'})` calls. However we're using our own model methods to bypass the hard to reason allow/deny rules.
-
-
 
 Meteor provides an RPC style method that can be called on the client or on the server (even other non servers with a DDP adapter). You simply write a method on the server and on the client you call `Meteor.call('multiply', 2, 5);`. On the server the call would directly return `10` because we have fibers. On the client we can't block so the last argument would be a callback with params `error` and `response`. You also have access to a few resources inside the method like `this.userId`. It will contain the caller's userId if they are authenticated. Meteor uses these methods under the hood for the `Authors.insert({name: 'foo'})` calls. However we're using our own model methods to bypass the hard to reason allow/deny rules. The Meteor methods turn out to be pretty good at standing in for a Flux Dispatcher.
 
