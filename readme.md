@@ -12,9 +12,7 @@ Building a realtime backend and clientside optimistic UI for React can be diffic
 
 This repo aims to be a sandbox that developers can learn how to create React apps with a Meteor backend. We'll have several branches with different ways to architect/use the app (such as a full flux spec). 
 
-Meteor and Flux/Relay overlap quite a bit so the master branch will be the most simple version that beginners can pickup and start running. 
-
-The data fetching layer of this app is based on the Flux and Relay ideas by allowing child components to declare the data field shape they need (coming soon). This data is passed down through props.
+Meteor with Flux or Relay type experiments can be a bit complicated so the master branch will be the most simple version that beginners can pickup and start running.
 
 The Meteor Development Group is working on making a deeper and more seamless integration with Meteor and React. Checkout the progress [Here][1]. The master branch is using the preview release of this package.
 
@@ -26,7 +24,6 @@ The Meteor Development Group is working on making a deeper and more seamless int
 - Universal JS shared on client and server (isomorphic)
 - Real time database updates (like Uber's realtime driver location)
 - Hot code reloads
-- Easier data fetching than Flux
 - Mini-Mongo client data store (easy clientside querying)
 - Build system for preprocessing Sass, Babel, etc...
 - Clean server-side code with fibers (soon with promise ES7 async/await)
@@ -69,6 +66,8 @@ Fetching data with Meteor is quite different than a traditional REST system. Ins
 
 This new data is sent into a store called Mini-Mongo. It acts like an in memory Mongo database which turns out to be a really convenient way to access store data. Since this is in memory, ops are very fast (basically a key/value lookup). If you were using the PostgreSQL database you would use SQL to query the Mini-PostgreSQL store instead.
 
+If you prefer a flux architecture, you can use Tracker to watch for changes and then emit a changed event.
+
 
 The whole data cycle looks like this:
 
@@ -82,7 +81,7 @@ The whole data cycle looks like this:
 - data flows from grandparent down to all children
 
 
-New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a Flux/Realy type system to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some. It's also trying to stay simple by not trying to solve every edge case. We'll have a full flux/Relay branch for a more complex example of this.
+New Meteor users can get tripped up in this process by sending too much data to the client, causing slowdown. This project uses a GraphQL/Relay inspired subscription to help prevent over publishing data. Each component specify what fields they need and their grandparent takes care of the actual query. This grandparent pushes down new data through their props. This makes testing very easy as the fetching only happens in one place. This data fetching system is a first draft so it may change some.
 
 
 
