@@ -1,0 +1,17 @@
+.more-feed {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  &__more-btn {
+    padding: 7px 15px;
+    min-width: 20px;
+    margin-bottom: 13px;
+    background-color: $primary;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+}

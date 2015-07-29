@@ -17,16 +17,14 @@ class FeedList extends React.Component {
             />;
           })
         }
-        <button className='more-btn'
-            onClick={this.props.incrementLimit}>
-          Load More
-        </button>
+        <MoreFeedItems incrementLimit={this.props.incrementLimit}/>
       </div>
     );
   }
 }
 FeedList.propTypes = {
-  comments: React.PropTypes.array,
+  incrementLimit: React.PropTypes.func,
+  postItems: React.PropTypes.array
 };
 
 this.FeedList = FeedList;
