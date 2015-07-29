@@ -50,6 +50,8 @@ Meteor.publish('feed', function(fields, limits, postIds) {
 
 
   // returns Mongo Cursors
+  console.log('postId is:');
+  console.log(postIds);
   return [
     Posts.find({}, {fields: fields.posts, sort: {createdAt: -1}, limit: limits.posts}),
     Comments.find({postId: {$in: postIds ? postIds : []}}, {fields: fields.postComments})
