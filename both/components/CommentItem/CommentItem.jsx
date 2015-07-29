@@ -14,7 +14,7 @@ class CommentItem extends React.Component {
           </span>
 
           <div className="comment-item__date">
-            { this.props.createdAt.toDateString() }
+            { moment(this.props.createdAt).fromNow() }
           </div>
         </div>
       </div>
