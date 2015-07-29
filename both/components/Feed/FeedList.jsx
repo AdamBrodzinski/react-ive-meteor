@@ -1,7 +1,6 @@
 /*global FeedItem */
 
 class FeedList extends React.Component {
-  // TODO break out more button into comp
   render() {
     console.log("[FeedList] Rendering");
     return (

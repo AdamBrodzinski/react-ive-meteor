@@ -45,7 +45,6 @@ this.FeedContainer = React.createClass({
   // subscribe to a reactive stream of data from
   // publication at:  server/publications/feed.js
   startMeteorSubscriptions() {
-    console.log('reset-sub-settings');
     var fields = this.state.fieldsNeeded;
     var postIds = this.data.postIds;
     var recordCount = this.state.recordCount;
@@ -55,7 +54,6 @@ this.FeedContainer = React.createClass({
   // re-renders view if any reactive data source changes. `sub` is reactive
   // and will change when any new data is availible from subscription.
   getMeteorData: function() {
-    console.log('rerun-getMeteorData');
     var sub = this.startMeteorSubscriptions();
 
     return {
@@ -67,7 +65,6 @@ this.FeedContainer = React.createClass({
 
   // pass this down to children so they can increase the limit when needed
   incrementLimit() {
-    console.log('click more');
     var limits = _.extend({}, this.state.recordCount);
     limits.posts = limits.posts + 5;
 

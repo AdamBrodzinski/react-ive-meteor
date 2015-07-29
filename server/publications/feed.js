@@ -1,6 +1,7 @@
 /*global Posts, Comments */
 
-var optional = Match.Optional;
+var optional = Match.Optional,
+    loadMoreStep = 5;
 
 Meteor.publish('feed', function(fields, limits, postIds) {
   check(limits, {posts: Number});
@@ -49,12 +50,21 @@ Meteor.publish('feed', function(fields, limits, postIds) {
   });
 
 
+  // current 'load more' postIds
+  var newPostIds = Posts.find({}, {
+                                  fields: {'_id': 1},
+                                  sort: {createdAt: -1},
+                                  limit: limits.posts,
+                                  skip: limits.posts - loadMoreStep}
+      ).map(function (post) {
+        return post._id;
+      });
+  postIds = _.union(postIds ? postIds : [], newPostIds);
+
   // returns Mongo Cursors
-  console.log('postId is:');
-  console.log(postIds);
   return [
     Posts.find({}, {fields: fields.posts, sort: {createdAt: -1}, limit: limits.posts}),
-    Comments.find({postId: {$in: postIds ? postIds : []}}, {fields: fields.postComments})
+    Comments.find({postId: {$in: postIds}}, {fields: fields.postComments})
   ];
 });
 
