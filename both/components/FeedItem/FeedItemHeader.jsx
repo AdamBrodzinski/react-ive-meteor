@@ -3,6 +3,7 @@
 
 
 this.FeedItemHeader = React.createClass({
+  mixins: [TimeFormatMixins],
   propTypes: {
     userName: React.PropTypes.string,
     ownerId: React.PropTypes.string,
@@ -12,7 +13,7 @@ this.FeedItemHeader = React.createClass({
 
   formatDate() {
     var date = this.props.createdAt;
-    return date && this.props.createdAt.toDateString();
+    return date && this.fromNow(date);
   },
 
   handleClick() {
