@@ -34,15 +34,14 @@ The Meteor Development Group is working on making a deeper and more seamless int
 
 
 ### Cons of using Meteor
-- No official core SQL support yet (3rd party PostgreSQL and MySQL avail.)
-- Limited server-side rendering (follow [this repo](https://github.com/AdamBrodzinski/meteor-react-ssr-spike) for React Meteor SSR support )
-- No client-side file import system yet, uses packages, global namespaces and file load order instead
+- No live-query support for SQL (non-reactive SQL supported via GraphQL)
+- No client-side file import system yet (v 1.3 will change this)
 
 
 ### Fallacies of Meteor
 - Not secure - This has been resolved for quite a while... *try to modify someone else's post!*
 - Not scalable - Many companies are using Meteor with large user bases
-- Only supports Mongo - There's options just not official packages yet
+- Only supports Mongo - With GraphQL any promise based driver will work
 - Meteor is only for realtime streams - works well with without realtime updates too!
 
 
