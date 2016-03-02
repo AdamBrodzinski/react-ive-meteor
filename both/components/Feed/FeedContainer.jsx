@@ -43,7 +43,7 @@ this.FeedContainer = React.createClass({
   },
 
   // subscribe to a reactive stream of data from
-  // publication at:  server/publications/posts.js
+  // publication at:  server/publications/feed.js
   startMeteorSubscriptions() {
     var fields = this.state.fieldsNeeded;
     var postIds = this.data.postIds;
